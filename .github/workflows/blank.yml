@@ -82,4 +82,4 @@ jobs:
         if: ${{ github.event.schedule == env.CRON_SCHEDULE }}
         run: |
           echo "Running for cron schedule: ${{ env.CRON_SCHEDULE }}"
-          python3 Scheduler.py ${{ matrix.ad_index }} ${{ secrets[matrix.account] }}
+          python3 1.py ${{ matrix.ad_index }} ${{ secrets[matrix.account] }}
