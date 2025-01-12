@@ -9,10 +9,6 @@ import os
 urls = ["https://discord.com/api/v9/channels/1302654530474737770/messages",
 "https://discord.com/api/v9/channels/1302654558023057540/messages",
 "https://discord.com/api/v9/channels/1302654581758496809/messages",]
-# Parse arguments
-if len(sys.argv) != 3:
-    print("Usage: python3 Scheduler.py <ad_index> <token>")
-    sys.exit(1)
 
 
 token = sys.argv[2]
