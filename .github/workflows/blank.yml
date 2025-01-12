@@ -1,0 +1,85 @@
+name: Ads Scheduler
+
+on:
+  workflow_dispatch:  # Allow manual triggers
+  schedule:
+    - cron: "0 0 * * *"  # Trigger at 00:00
+    - cron: "0 2 * * *"  # Trigger at 02:00
+    - cron: "0 4 * * *"  # Trigger at 04:00
+    - cron: "0 6 * * *"  # Trigger at 06:00
+    - cron: "0 8 * * *"  # Trigger at 08:00
+    - cron: "0 10 * * *" # Trigger at 10:00
+    - cron: "0 12 * * *" # Trigger at 12:00
+    - cron: "0 14 * * *" # Trigger at 14:00
+    - cron: "0 16 * * *" # Trigger at 16:00
+    - cron: "0 18 * * *" # Trigger at 18:00
+    - cron: "0 20 * * *" # Trigger at 20:00
+    - cron: "0 22 * * *" # Trigger at 22:00
+
+jobs:
+  post-ad:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - cron: "0 0 * * *"
+            ad_index: "AD_1"
+            account: "ACCOUNT_1_TOKEN"
+          - cron: "0 2 * * *"
+            ad_index: "AD_2"
+            account: "ACCOUNT_2_TOKEN"
+          - cron: "0 4 * * *"
+            ad_index: "AD_3"
+            account: "ACCOUNT_3_TOKEN"
+          - cron: "0 6 * * *"
+            ad_index: "AD_4"
+            account: "ACCOUNT_4_TOKEN"
+          - cron: "0 8 * * *"
+            ad_index: "AD_5"
+            account: "ACCOUNT_1_TOKEN"
+          - cron: "0 10 * * *"
+            ad_index: "AD_6"
+            account: "ACCOUNT_2_TOKEN"
+          - cron: "0 12 * * *"
+            ad_index: "AD_7"
+            account: "ACCOUNT_3_TOKEN"
+          - cron: "0 14 * * *"
+            ad_index: "AD_8"
+            account: "ACCOUNT_4_TOKEN"
+          - cron: "0 16 * * *"
+            ad_index: "AD_9"
+            account: "ACCOUNT_1_TOKEN"
+          - cron: "0 18 * * *"
+            ad_index: "AD_10"
+            account: "ACCOUNT_2_TOKEN"
+          - cron: "0 20 * * *"
+            ad_index: "AD_11"
+            account: "ACCOUNT_3_TOKEN"
+          - cron: "0 22 * * *"
+            ad_index: "AD_12"
+            account: "ACCOUNT_4_TOKEN"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set cron schedule environment variable
+        run: echo "CRON_SCHEDULE=${{ matrix.cron }}" >> $GITHUB_ENV
+
+      - name: Debug Schedule
+        run: |
+          echo "Triggered by: ${{ github.event.schedule }}"
+          echo "Expected: ${{ matrix.cron }}"
+          echo "Cron Schedule: ${{ env.CRON_SCHEDULE }}"
+
+      - name: Debugging arguments
+        run: |
+          echo "Ad Index: ${{ matrix.ad_index }}"
+          echo "Account Token: [HIDDEN]"
+
+      - name: Run only for the matching schedule
+        if: ${{ github.event.schedule == env.CRON_SCHEDULE }}
+        run: |
+          echo "Running for cron schedule: ${{ env.CRON_SCHEDULE }}"
+          python3 Scheduler.py ${{ matrix.ad_index }} ${{ secrets[matrix.account] }}
