@@ -16,12 +16,6 @@ if len(sys.argv) != 3:
 
 
 token = sys.argv[2]
-
-# Validate ad index
-if ad_index < 1 or ad_index > 12:
-    print("Invalid ad index. Must be between 1 and 12.")
-    sys.exit(1)
-
 Advertisement = sys.argv[1]
 
 # Prepare headers and payload
