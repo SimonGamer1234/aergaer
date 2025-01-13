@@ -1,6 +1,7 @@
 name: Ads Scheduler
 
 on:
+  workflow_dispatch:  # Allow manual triggers
   schedule:
     - cron: "0 0 * * *"  # 00:00
     - cron: "0 2 * * *"  # 02:00
