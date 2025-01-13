@@ -4,15 +4,17 @@ import random
 import sys
 import json
 
-# Parse the list of URLs passed as a command-line argument
-urls = [ sys.argv[3] ]
+# Parse the input arguments
+urls_string = sys.argv[3]  # The repository variable containing the URLs as a string
+token = sys.argv[2]        # Authorization token
+advertisement = sys.argv[1]  # The advertisement content
 
-token = sys.argv[2]
-Advertisement = sys.argv[1]
+# Split the URLs string into a list of URLs
+urls = [url.strip() for url in urls_string.split(",")]
 
 # Prepare headers and payload
 headers = {"Authorization": token}
-payload = {"content": Advertisement}
+payload = {"content": advertisement}
 
 # Post the ad to each URL
 for url in urls:
