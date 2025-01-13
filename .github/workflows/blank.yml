@@ -20,6 +20,7 @@ jobs:
   post-ad:
     runs-on: ubuntu-latest
 
+    # Dynamically assign ads and accounts based on schedule
     strategy:
       matrix:
         include:
@@ -61,20 +62,24 @@ jobs:
             account: "ACCOUNT_4_TOKEN"
 
     steps:
+      # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Step 2: Load Ad Content and URLs dynamically from repository variables
       - name: Load Ad Content and URLs
         id: load-variables
         run: |
           echo "AD_CONTENT=${{ vars[matrix.ad_variable] }}" >> $GITHUB_ENV
           echo "DISCORD_URLS=${{ vars.DISCORD_URLS }}" >> $GITHUB_ENV
 
+      # Step 3: Debug variables (optional)
       - name: Debugging Variables
         run: |
           echo "Ad Content: ${{ env.AD_CONTENT }}"
-          echo "URLs: [HIDDEN]"
           echo "Account Token: [HIDDEN]"
+          echo "URLs: [HIDDEN]"
 
-      - name: Run Python Script
+      # Step 4: Run the Python script
+      - name: Post Ad using Python
         run: python3 1.py "${{ env.AD_CONTENT }}" "${{ secrets[matrix.account] }}" "${{ env.DISCORD_URLS }}"
