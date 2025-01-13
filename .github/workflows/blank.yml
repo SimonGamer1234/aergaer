@@ -22,59 +22,40 @@ jobs:
 
     strategy:
       matrix:
-        schedule:
-          - "0 0 * * *"
-          - "0 2 * * *"
-          - "0 4 * * *"
-          - "0 6 * * *"
-          - "0 8 * * *"
-          - "0 10 * * *"
-          - "0 12 * * *"
-          - "0 14 * * *"
-          - "0 16 * * *"
-          - "0 18 * * *"
-          - "0 20 * * *"
-          - "0 22 * * *"
+        ad: 
+          - { time: "0 0", content: "AD_1", token: "ACCOUNT_1_TOKEN" }
+          - { time: "0 2", content: "AD_2", token: "ACCOUNT_2_TOKEN" }
+          - { time: "0 4", content: "AD_3", token: "ACCOUNT_3_TOKEN" }
+          - { time: "0 6", content: "AD_4", token: "ACCOUNT_4_TOKEN" }
+          - { time: "0 8", content: "AD_5", token: "ACCOUNT_1_TOKEN" }
+          - { time: "0 10", content: "AD_6", token: "ACCOUNT_2_TOKEN" }
+          - { time: "0 12", content: "AD_7", token: "ACCOUNT_3_TOKEN" }
+          - { time: "0 14", content: "AD_8", token: "ACCOUNT_4_TOKEN" }
+          - { time: "0 16", content: "AD_9", token: "ACCOUNT_1_TOKEN" }
+          - { time: "0 18", content: "AD_10", token: "ACCOUNT_2_TOKEN" }
+          - { time: "0 20", content: "AD_11", token: "ACCOUNT_3_TOKEN" }
+          - { time: "0 22", content: "AD_12", token: "ACCOUNT_4_TOKEN" }
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Determine Ad Content
-        id: set-ad
+      - name: Verify Execution Time
+        id: check-time
         run: |
           CURRENT_TIME=$(date -u +"%H:%M")
-          SCHEDULE_TIME=$(echo "${{ matrix.schedule }}" | cut -d' ' -f2)
+          SCHEDULE_TIME="${{ matrix.ad.time }}"
           if [[ "$CURRENT_TIME" != "$SCHEDULE_TIME" ]]; then
-            echo "Current time ($CURRENT_TIME) does not match the schedule time ($SCHEDULE_TIME). Skipping..."
+            echo "Current time ($CURRENT_TIME) does not match the scheduled time ($SCHEDULE_TIME). Skipping job."
             exit 0
           fi
 
-          case "${{ matrix.schedule }}" in
-            "0 0 * * *") 
-              echo "AD_CONTENT=${{ vars.AD_1 }}" >> $GITHUB_ENV
-              echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_1_TOKEN }}" >> $GITHUB_ENV
-              ;;
-            "0 2 * * *") 
-              echo "AD_CONTENT=${{ vars.AD_2 }}" >> $GITHUB_ENV
-              echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_2_TOKEN }}" >> $GITHUB_ENV
-              ;;
-            "0 4 * * *") 
-              echo "AD_CONTENT=${{ vars.AD_3 }}" >> $GITHUB_ENV
-              echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_3_TOKEN }}" >> $GITHUB_ENV
-              ;;
-            "0 6 * * *") 
-              echo "AD_CONTENT=${{ vars.AD_4 }}" >> $GITHUB_ENV
-              echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_4_TOKEN }}" >> $GITHUB_ENV
-              ;;
-            # Add more cases for other schedules...
-            *) 
-              echo "No matching schedule. Exiting..."
-              exit 1
-              ;;
-          esac
+      - name: Set Ad Content
+        run: |
+          echo "AD_CONTENT=${{ vars[matrix.ad.content] }}" >> $GITHUB_ENV
+          echo "ACCOUNT_TOKEN=${{ secrets[matrix.ad.token] }}" >> $GITHUB_ENV
 
-      - name: Debugging Variables
+      - name: Debug Variables
         run: |
           echo "Ad Content: ${{ env.AD_CONTENT }}"
           echo "Account Token: [HIDDEN]"
