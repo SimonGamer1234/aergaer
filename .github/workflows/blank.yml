@@ -20,18 +20,30 @@ jobs:
   post-ad:
     runs-on: ubuntu-latest
 
-    # Dynamically determine which ad to post based on the current time
+    strategy:
+      matrix:
+        schedule:
+          - "0 0 * * *"
+          - "0 2 * * *"
+          - "0 4 * * *"
+          - "0 6 * * *"
+          - "0 8 * * *"
+          - "0 10 * * *"
+          - "0 12 * * *"
+          - "0 14 * * *"
+          - "0 16 * * *"
+          - "0 18 * * *"
+          - "0 20 * * *"
+          - "0 22 * * *"
+
     steps:
-      # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Determine Ad Content and Token for the Scheduled Time
-      - name: Set Ad Variables
+      - name: Determine Ad Content
         id: set-ad
         run: |
-          # Determine which ad to post based on the scheduled time
-          case "${{ github.event.schedule }}" in
+          case "${{ matrix.schedule }}" in
             "0 0 * * *") 
               echo "AD_CONTENT=${{ vars.AD_1 }}" >> $GITHUB_ENV
               echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_1_TOKEN }}" >> $GITHUB_ENV
@@ -86,12 +98,10 @@ jobs:
               ;;
           esac
 
-      # Step 3: Debugging Variables (optional)
-      - name: Debug Variables
+      - name: Debugging Variables
         run: |
           echo "Ad Content: ${{ env.AD_CONTENT }}"
           echo "Account Token: [HIDDEN]"
 
-      # Step 4: Post the Ad
-      - name: Post Ad using Python
+      - name: Post Ad
         run: python3 1.py "${{ env.AD_CONTENT }}" "${{ env.ACCOUNT_TOKEN }}" "${{ vars.DISCORD_URLS }}"
