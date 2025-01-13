@@ -5,7 +5,7 @@ import sys
 import json
 
 # Parse the list of URLs passed as a command-line argument
-urls = [ (sys.argv[3]) ]   # Expecting a JSON-formatted string
+urls = sys.argv[3]
 
 token = sys.argv[2]
 Advertisement = sys.argv[1]
