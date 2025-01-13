@@ -3,83 +3,95 @@ name: Ads Scheduler
 on:
   workflow_dispatch:  # Allow manual triggers
   schedule:
-    - cron: "0 0 * * *"  # 00:00
-    - cron: "0 2 * * *"  # 02:00
-    - cron: "0 4 * * *"  # 04:00
-    - cron: "0 6 * * *"  # 06:00
-    - cron: "0 8 * * *"  # 08:00
-    - cron: "0 10 * * *" # 10:00
-    - cron: "0 12 * * *" # 12:00
-    - cron: "0 14 * * *" # 14:00
-    - cron: "0 16 * * *" # 16:00
-    - cron: "0 18 * * *" # 18:00
-    - cron: "0 20 * * *" # 20:00
-    - cron: "0 22 * * *" # 22:00
+    - cron: "0 0 * * *"  # 00:00 - Ad 1
+    - cron: "0 2 * * *"  # 02:00 - Ad 2
+    - cron: "0 4 * * *"  # 04:00 - Ad 3
+    - cron: "0 6 * * *"  # 06:00 - Ad 4
+    - cron: "0 8 * * *"  # 08:00 - Ad 5
+    - cron: "0 10 * * *" # 10:00 - Ad 6
+    - cron: "0 12 * * *" # 12:00 - Ad 7
+    - cron: "0 14 * * *" # 14:00 - Ad 8
+    - cron: "0 16 * * *" # 16:00 - Ad 9
+    - cron: "0 18 * * *" # 18:00 - Ad 10
+    - cron: "0 20 * * *" # 20:00 - Ad 11
+    - cron: "0 22 * * *" # 22:00 - Ad 12
 
 jobs:
   post-ad:
     runs-on: ubuntu-latest
 
-    # Dynamically assign ads and accounts based on schedule
-    strategy:
-      matrix:
-        include:
-          - cron: "0 0 * * *"
-            ad_variable: "AD_1"
-            account: "ACCOUNT_1_TOKEN"
-          - cron: "0 2 * * *"
-            ad_variable: "AD_2"
-            account: "ACCOUNT_2_TOKEN"
-          - cron: "0 4 * * *"
-            ad_variable: "AD_3"
-            account: "ACCOUNT_3_TOKEN"
-          - cron: "0 6 * * *"
-            ad_variable: "AD_4"
-            account: "ACCOUNT_4_TOKEN"
-          - cron: "0 8 * * *"
-            ad_variable: "AD_5"
-            account: "ACCOUNT_1_TOKEN"
-          - cron: "0 10 * * *"
-            ad_variable: "AD_6"
-            account: "ACCOUNT_2_TOKEN"
-          - cron: "0 12 * * *"
-            ad_variable: "AD_7"
-            account: "ACCOUNT_3_TOKEN"
-          - cron: "0 14 * * *"
-            ad_variable: "AD_8"
-            account: "ACCOUNT_4_TOKEN"
-          - cron: "0 16 * * *"
-            ad_variable: "AD_9"
-            account: "ACCOUNT_1_TOKEN"
-          - cron: "0 18 * * *"
-            ad_variable: "AD_10"
-            account: "ACCOUNT_2_TOKEN"
-          - cron: "0 20 * * *"
-            ad_variable: "AD_11"
-            account: "ACCOUNT_3_TOKEN"
-          - cron: "0 22 * * *"
-            ad_variable: "AD_12"
-            account: "ACCOUNT_4_TOKEN"
-
+    # Dynamically determine which ad to post based on the current time
     steps:
       # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Load Ad Content and URLs dynamically from repository variables
-      - name: Load Ad Content and URLs
-        id: load-variables
+      # Step 2: Determine Ad Content and Token for the Scheduled Time
+      - name: Set Ad Variables
+        id: set-ad
         run: |
-          echo "AD_CONTENT=${{ vars[matrix.ad_variable] }}" >> $GITHUB_ENV
-          echo "DISCORD_URLS=${{ vars.DISCORD_URLS }}" >> $GITHUB_ENV
+          # Determine which ad to post based on the scheduled time
+          case "${{ github.event.schedule }}" in
+            "0 0 * * *") 
+              echo "AD_CONTENT=${{ vars.AD_1 }}" >> $GITHUB_ENV
+              echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_1_TOKEN }}" >> $GITHUB_ENV
+              ;;
+            "0 2 * * *") 
+              echo "AD_CONTENT=${{ vars.AD_2 }}" >> $GITHUB_ENV
+              echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_2_TOKEN }}" >> $GITHUB_ENV
+              ;;
+            "0 4 * * *") 
+              echo "AD_CONTENT=${{ vars.AD_3 }}" >> $GITHUB_ENV
+              echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_3_TOKEN }}" >> $GITHUB_ENV
+              ;;
+            "0 6 * * *") 
+              echo "AD_CONTENT=${{ vars.AD_4 }}" >> $GITHUB_ENV
+              echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_4_TOKEN }}" >> $GITHUB_ENV
+              ;;
+            "0 8 * * *") 
+              echo "AD_CONTENT=${{ vars.AD_5 }}" >> $GITHUB_ENV
+              echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_1_TOKEN }}" >> $GITHUB_ENV
+              ;;
+            "0 10 * * *") 
+              echo "AD_CONTENT=${{ vars.AD_6 }}" >> $GITHUB_ENV
+              echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_2_TOKEN }}" >> $GITHUB_ENV
+              ;;
+            "0 12 * * *") 
+              echo "AD_CONTENT=${{ vars.AD_7 }}" >> $GITHUB_ENV
+              echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_3_TOKEN }}" >> $GITHUB_ENV
+              ;;
+            "0 14 * * *") 
+              echo "AD_CONTENT=${{ vars.AD_8 }}" >> $GITHUB_ENV
+              echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_4_TOKEN }}" >> $GITHUB_ENV
+              ;;
+            "0 16 * * *") 
+              echo "AD_CONTENT=${{ vars.AD_9 }}" >> $GITHUB_ENV
+              echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_1_TOKEN }}" >> $GITHUB_ENV
+              ;;
+            "0 18 * * *") 
+              echo "AD_CONTENT=${{ vars.AD_10 }}" >> $GITHUB_ENV
+              echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_2_TOKEN }}" >> $GITHUB_ENV
+              ;;
+            "0 20 * * *") 
+              echo "AD_CONTENT=${{ vars.AD_11 }}" >> $GITHUB_ENV
+              echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_3_TOKEN }}" >> $GITHUB_ENV
+              ;;
+            "0 22 * * *") 
+              echo "AD_CONTENT=${{ vars.AD_12 }}" >> $GITHUB_ENV
+              echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_4_TOKEN }}" >> $GITHUB_ENV
+              ;;
+            *) 
+              echo "No matching schedule. Exiting..."
+              exit 1
+              ;;
+          esac
 
-      # Step 3: Debug variables (optional)
-      - name: Debugging Variables
+      # Step 3: Debugging Variables (optional)
+      - name: Debug Variables
         run: |
           echo "Ad Content: ${{ env.AD_CONTENT }}"
           echo "Account Token: [HIDDEN]"
-          echo "URLs: [HIDDEN]"
 
-      # Step 4: Run the Python script
+      # Step 4: Post the Ad
       - name: Post Ad using Python
-        run: python3 1.py "${{ env.AD_CONTENT }}" "${{ secrets[matrix.account] }}" "${{ env.DISCORD_URLS }}"
+        run: python3 1.py "${{ env.AD_CONTENT }}" "${{ env.ACCOUNT_TOKEN }}" "${{ vars.DISCORD_URLS }}"
