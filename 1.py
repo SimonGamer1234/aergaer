@@ -2,17 +2,25 @@ import requests
 import time
 import random
 import sys
-import os
+import json
 
+# Ensure the correct number of arguments are passed
+if len(sys.argv) != 4:
+    print("Usage: python3 script.py <Advertisement> <Token> <URLs_JSON>")
+    sys.exit(1)
 
-# API URLs to post to
-urls = ["https://discord.com/api/v9/channels/1302654530474737770/messages",
-"https://discord.com/api/v9/channels/1302654558023057540/messages",
-"https://discord.com/api/v9/channels/1302654581758496809/messages",]
-
-
-token = sys.argv[2]
+# Get inputs from command-line arguments
 Advertisement = sys.argv[1]
+token = sys.argv[2]
+
+# Parse the URLs passed as a JSON string
+try:
+    urls = json.loads(sys.argv[3])
+    if not isinstance(urls, list):
+        raise ValueError("URLs must be a list.")
+except Exception as e:
+    print(f"Error parsing URLs: {e}")
+    sys.exit(1)
 
 # Prepare headers and payload
 headers = {"Authorization": token}
@@ -22,11 +30,11 @@ payload = {"content": Advertisement}
 for url in urls:
     sleeptime = random.uniform(2, 5)  # Random delay between posts
     try:
-        res = requests.post(url, data=payload, headers=headers)
-        if res.status_code == 200:
+        response = requests.post(url, data=payload, headers=headers)
+        if response.status_code == 200:
             print(f"Successfully posted to {url}")
         else:
-            print(f"Failed to post to {url}: {res.status_code} - {res.text}")
+            print(f"Failed to post to {url}: {response.status_code} - {response.text}")
     except Exception as e:
         print(f"Error posting to {url}: {e}")
     time.sleep(sleeptime)
