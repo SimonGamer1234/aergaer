@@ -1,20 +1,19 @@
 name: Ads Scheduler
 
 on:
-  workflow_dispatch:  # Allow manual triggers
   schedule:
-    - cron: "0 0 * * *"  # Trigger at 00:00
-    - cron: "0 2 * * *"  # Trigger at 02:00
-    - cron: "0 4 * * *"  # Trigger at 04:00
-    - cron: "0 6 * * *"  # Trigger at 06:00
-    - cron: "0 8 * * *"  # Trigger at 08:00
-    - cron: "0 10 * * *" # Trigger at 10:00
-    - cron: "0 12 * * *" # Trigger at 12:00
-    - cron: "0 14 * * *" # Trigger at 14:00
-    - cron: "0 16 * * *" # Trigger at 16:00
-    - cron: "0 18 * * *" # Trigger at 18:00
-    - cron: "0 20 * * *" # Trigger at 20:00
-    - cron: "0 22 * * *" # Trigger at 22:00
+    - cron: "0 0 * * *"  # 00:00
+    - cron: "0 2 * * *"  # 02:00
+    - cron: "0 4 * * *"  # 04:00
+    - cron: "0 6 * * *"  # 06:00
+    - cron: "0 8 * * *"  # 08:00
+    - cron: "0 10 * * *" # 10:00
+    - cron: "0 12 * * *" # 12:00
+    - cron: "0 14 * * *" # 14:00
+    - cron: "0 16 * * *" # 16:00
+    - cron: "0 18 * * *" # 18:00
+    - cron: "0 20 * * *" # 20:00
+    - cron: "0 22 * * *" # 22:00
 
 jobs:
   post-ad:
@@ -24,62 +23,57 @@ jobs:
       matrix:
         include:
           - cron: "0 0 * * *"
-            ad_index: "AD_1"
+            ad_variable: "AD_1"
             account: "ACCOUNT_1_TOKEN"
           - cron: "0 2 * * *"
-            ad_index: "AD_2"
+            ad_variable: "AD_2"
             account: "ACCOUNT_2_TOKEN"
           - cron: "0 4 * * *"
-            ad_index: "AD_3"
+            ad_variable: "AD_3"
             account: "ACCOUNT_3_TOKEN"
           - cron: "0 6 * * *"
-            ad_index: "AD_4"
+            ad_variable: "AD_4"
             account: "ACCOUNT_4_TOKEN"
           - cron: "0 8 * * *"
-            ad_index: "AD_5"
+            ad_variable: "AD_5"
             account: "ACCOUNT_1_TOKEN"
           - cron: "0 10 * * *"
-            ad_index: "AD_6"
+            ad_variable: "AD_6"
             account: "ACCOUNT_2_TOKEN"
           - cron: "0 12 * * *"
-            ad_index: "AD_7"
+            ad_variable: "AD_7"
             account: "ACCOUNT_3_TOKEN"
           - cron: "0 14 * * *"
-            ad_index: "AD_8"
+            ad_variable: "AD_8"
             account: "ACCOUNT_4_TOKEN"
           - cron: "0 16 * * *"
-            ad_index: "AD_9"
+            ad_variable: "AD_9"
             account: "ACCOUNT_1_TOKEN"
           - cron: "0 18 * * *"
-            ad_index: "AD_10"
+            ad_variable: "AD_10"
             account: "ACCOUNT_2_TOKEN"
           - cron: "0 20 * * *"
-            ad_index: "AD_11"
+            ad_variable: "AD_11"
             account: "ACCOUNT_3_TOKEN"
           - cron: "0 22 * * *"
-            ad_index: "AD_12"
+            ad_variable: "AD_12"
             account: "ACCOUNT_4_TOKEN"
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set cron schedule environment variable
-        run: echo "CRON_SCHEDULE=${{ matrix.cron }}" >> $GITHUB_ENV
-
-      - name: Debug Schedule
+      - name: Load Ad Content and URLs
+        id: load-variables
         run: |
-          echo "Triggered by: ${{ github.event.schedule }}"
-          echo "Expected: ${{ matrix.cron }}"
-          echo "Cron Schedule: ${{ env.CRON_SCHEDULE }}"
+          echo "AD_CONTENT=${{ vars[matrix.ad_variable] }}" >> $GITHUB_ENV
+          echo "DISCORD_URLS=${{ vars.DISCORD_URLS }}" >> $GITHUB_ENV
 
-      - name: Debugging arguments
+      - name: Debugging Variables
         run: |
-          echo "Ad Index: ${{ matrix.ad_index }}"
+          echo "Ad Content: ${{ env.AD_CONTENT }}"
+          echo "URLs: [HIDDEN]"
           echo "Account Token: [HIDDEN]"
 
-      - name: Run only for the matching schedule
-        if: ${{ github.event.schedule == env.CRON_SCHEDULE }}
-        run: |
-          echo "Running for cron schedule: ${{ env.CRON_SCHEDULE }}"
-          python3 1.py ${{ matrix.ad_index }} ${{ secrets[matrix.account] }}
+      - name: Run Python Script
+        run: python3 1.py "${{ env.AD_CONTENT }}" "${{ secrets[matrix.account] }}" "${{ env.DISCORD_URLS }}"
