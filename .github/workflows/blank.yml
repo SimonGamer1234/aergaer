@@ -43,6 +43,13 @@ jobs:
       - name: Determine Ad Content
         id: set-ad
         run: |
+          CURRENT_TIME=$(date -u +"%H:%M")
+          SCHEDULE_TIME=$(echo "${{ matrix.schedule }}" | cut -d' ' -f2)
+          if [[ "$CURRENT_TIME" != "$SCHEDULE_TIME" ]]; then
+            echo "Current time ($CURRENT_TIME) does not match the schedule time ($SCHEDULE_TIME). Skipping..."
+            exit 0
+          fi
+
           case "${{ matrix.schedule }}" in
             "0 0 * * *") 
               echo "AD_CONTENT=${{ vars.AD_1 }}" >> $GITHUB_ENV
@@ -60,38 +67,7 @@ jobs:
               echo "AD_CONTENT=${{ vars.AD_4 }}" >> $GITHUB_ENV
               echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_4_TOKEN }}" >> $GITHUB_ENV
               ;;
-            "0 8 * * *") 
-              echo "AD_CONTENT=${{ vars.AD_5 }}" >> $GITHUB_ENV
-              echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_1_TOKEN }}" >> $GITHUB_ENV
-              ;;
-            "0 10 * * *") 
-              echo "AD_CONTENT=${{ vars.AD_6 }}" >> $GITHUB_ENV
-              echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_2_TOKEN }}" >> $GITHUB_ENV
-              ;;
-            "0 12 * * *") 
-              echo "AD_CONTENT=${{ vars.AD_7 }}" >> $GITHUB_ENV
-              echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_3_TOKEN }}" >> $GITHUB_ENV
-              ;;
-            "0 14 * * *") 
-              echo "AD_CONTENT=${{ vars.AD_8 }}" >> $GITHUB_ENV
-              echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_4_TOKEN }}" >> $GITHUB_ENV
-              ;;
-            "0 16 * * *") 
-              echo "AD_CONTENT=${{ vars.AD_9 }}" >> $GITHUB_ENV
-              echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_1_TOKEN }}" >> $GITHUB_ENV
-              ;;
-            "0 18 * * *") 
-              echo "AD_CONTENT=${{ vars.AD_10 }}" >> $GITHUB_ENV
-              echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_2_TOKEN }}" >> $GITHUB_ENV
-              ;;
-            "0 20 * * *") 
-              echo "AD_CONTENT=${{ vars.AD_11 }}" >> $GITHUB_ENV
-              echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_3_TOKEN }}" >> $GITHUB_ENV
-              ;;
-            "0 22 * * *") 
-              echo "AD_CONTENT=${{ vars.AD_12 }}" >> $GITHUB_ENV
-              echo "ACCOUNT_TOKEN=${{ secrets.ACCOUNT_4_TOKEN }}" >> $GITHUB_ENV
-              ;;
+            # Add more cases for other schedules...
             *) 
               echo "No matching schedule. Exiting..."
               exit 1
