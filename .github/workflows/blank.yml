@@ -23,42 +23,34 @@ jobs:
     strategy:
       matrix:
         ad: 
-          - { time: "0 0", content: "AD_1", token: "ACCOUNT_1_TOKEN" }
-          - { time: "0 2", content: "AD_2", token: "ACCOUNT_2_TOKEN" }
-          - { time: "0 4", content: "AD_3", token: "ACCOUNT_3_TOKEN" }
-          - { time: "0 6", content: "AD_4", token: "ACCOUNT_4_TOKEN" }
-          - { time: "0 8", content: "AD_5", token: "ACCOUNT_1_TOKEN" }
-          - { time: "0 10", content: "AD_6", token: "ACCOUNT_2_TOKEN" }
-          - { time: "0 12", content: "AD_7", token: "ACCOUNT_3_TOKEN" }
-          - { time: "0 14", content: "AD_8", token: "ACCOUNT_4_TOKEN" }
-          - { time: "0 16", content: "AD_9", token: "ACCOUNT_1_TOKEN" }
-          - { time: "0 18", content: "AD_10", token: "ACCOUNT_2_TOKEN" }
-          - { time: "0 20", content: "AD_11", token: "ACCOUNT_3_TOKEN" }
-          - { time: "0 22", content: "AD_12", token: "ACCOUNT_4_TOKEN" }
+          - { content: "AD_1", token: "ACCOUNT_1_TOKEN" }
+          - { content: "AD_2", token: "ACCOUNT_2_TOKEN" }
+          - { content: "AD_3", token: "ACCOUNT_3_TOKEN" }
+          - { content: "AD_4", token: "ACCOUNT_4_TOKEN" }
+          - { content: "AD_5", token: "ACCOUNT_1_TOKEN" }
+          - { content: "AD_6", token: "ACCOUNT_2_TOKEN" }
+          - { content: "AD_7", token: "ACCOUNT_3_TOKEN" }
+          - { content: "AD_8", token: "ACCOUNT_4_TOKEN" }
+          - { content: "AD_9", token: "ACCOUNT_1_TOKEN" }
+          - { content: "AD_10", token: "ACCOUNT_2_TOKEN" }
+          - { content: "AD_11", token: "ACCOUNT_3_TOKEN" }
+          - { content: "AD_12", token: "ACCOUNT_4_TOKEN" }
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Verify Execution Time
-        id: check-time
+      - name: Set Ad Variables
         run: |
-          CURRENT_TIME=$(date -u +"%H:%M")
-          SCHEDULE_TIME="${{ matrix.ad.time }}"
-          if [[ "$CURRENT_TIME" != "$SCHEDULE_TIME" ]]; then
-            echo "Current time ($CURRENT_TIME) does not match the scheduled time ($SCHEDULE_TIME). Skipping job."
-            exit 0
-          fi
-
-      - name: Set Ad Content
-        run: |
-          echo "AD_CONTENT=${{ vars[matrix.ad.content] }}" >> $GITHUB_ENV
+          echo "AD_CONTENT=${{ matrix.ad.content }}" >> $GITHUB_ENV
           echo "ACCOUNT_TOKEN=${{ secrets[matrix.ad.token] }}" >> $GITHUB_ENV
+          echo "DISCORD_URLS=${{ secrets.DISCORD_URLS }}" >> $GITHUB_ENV
 
       - name: Debug Variables
         run: |
           echo "Ad Content: ${{ env.AD_CONTENT }}"
           echo "Account Token: [HIDDEN]"
+          echo "Discord URLs: [HIDDEN]"
 
       - name: Post Ad
-        run: python3 1.py "${{ env.AD_CONTENT }}" "${{ env.ACCOUNT_TOKEN }}" "${{ vars.DISCORD_URLS }}"
+        run: python3 1.py "${{ env.AD_CONTENT }}" "${{ env.ACCOUNT_TOKEN }}" "${{ env.DISCORD_URLS }}"
