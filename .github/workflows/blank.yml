@@ -45,8 +45,10 @@ jobs:
           # Allow for a 5-minute tolerance
           TOLERANCE="1"
           CURRENT_TIME_HOURS=$(date -u +"%H")
+          CURRENT_TIME_HOURS=$((10#$CURRENT_TIME_HOURS))  # Convert to integer
           echo "CURRENT_TIME_HOURS: $CURRENT_TIME_HOURS"
           SCHEDULE_TIME_HOURS="${SCHEDULE_TIME:0:2}"
+          SCHEDULE_TIME_HOURS=$((10#$SCHEDULE_TIME_HOURS))
           echo "SCHEDULE_TIME_HOURS: $SCHEDULE_TIME_HOURS"
      
           TIME_DIFF=$(($CURRENT_TIME_HOURS - $SCHEDULE_TIME_HOURS))
