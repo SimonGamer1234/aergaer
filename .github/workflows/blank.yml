@@ -47,16 +47,17 @@ jobs:
 
       # Step 3: Check the scheduled time and exit if it doesn't match
       - name: Check Scheduled Time
-        id: time-check
-        run: |
-          CURRENT_TIME=$(date -u +"%H:%M")
-          print(CURRENT_TIME)
-          SCHEDULE_TIME="${{ matrix.ad.time }}"
-          print(SCHEDULE_TIME)
-          if [[ "$CURRENT_TIME" != "$SCHEDULE_TIME" ]]; then
-            echo "Current time ($CURRENT_TIME) does not match the scheduled time ($SCHEDULE_TIME). Skipping job."
-            exit 0
-          fi
+      id: time-check
+      run: |
+        CURRENT_TIME=$(date -u +"%H:%M")
+        echo "CURRENT_TIME: $CURRENT_TIME"
+         SCHEDULE_TIME="${{ matrix.ad.time }}"
+        echo "SCHEDULE_TIME: $SCHEDULE_TIME"
+        if [[ "$CURRENT_TIME" != "$SCHEDULE_TIME" ]]; then
+          echo "Current time ($CURRENT_TIME) does not match the scheduled time ($SCHEDULE_TIME). Skipping job."
+          exit 0
+    fi
+
 
       # Step 4: Set environment variables for the ad
       - name: Set Ad Variables
