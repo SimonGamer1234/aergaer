@@ -50,7 +50,9 @@ jobs:
         id: time-check
         run: |
           CURRENT_TIME=$(date -u +"%H:%M")
+          print(CURRENT_TIME)
           SCHEDULE_TIME="${{ matrix.ad.time }}"
+          print(SCHEDULE_TIME)
           if [[ "$CURRENT_TIME" != "$SCHEDULE_TIME" ]]; then
             echo "Current time ($CURRENT_TIME) does not match the scheduled time ($SCHEDULE_TIME). Skipping job."
             exit 0
