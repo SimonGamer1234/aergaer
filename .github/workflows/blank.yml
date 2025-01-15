@@ -30,7 +30,7 @@ jobs:
           - { time: "14:00", content: "AD_8", token: "ACCOUNT_4_TOKEN" }
           - { time: "16:00", content: "AD_9", token: "ACCOUNT_1_TOKEN" }
           - { time: "18:00", content: "AD_10", token: "ACCOUNT_2_TOKEN" }
-          - { time: "21:00", content: "AD_11", token: "ACCOUNT_3_TOKEN" }
+          - { time: "19:00", content: "AD_11", token: "ACCOUNT_3_TOKEN" }
           - { time: "22:00", content: "AD_12", token: "ACCOUNT_4_TOKEN" }
     steps:
       - name: Checkout Repository
