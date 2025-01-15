@@ -1,62 +1,27 @@
-name: Ads Scheduler
+- name: Post Ad if Time Matches
+  run: |
+    CURRENT_TIME=$(date -u +"%H:%M")
+    echo "CURRENT_TIME: $CURRENT_TIME"
+    SCHEDULE_TIME="${{ matrix.ad.time }}"
+    echo "SCHEDULE_TIME: $SCHEDULE_TIME"
 
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: "0 0 * * *"  # 00:00 - Ad 1
-    - cron: "0 2 * * *"  # 02:00 - Ad 2
-    - cron: "0 4 * * *"  # 04:00 - Ad 3
-    - cron: "0 6 * * *"  # 06:00 - Ad 4
-    - cron: "0 8 * * *"  # 08:00 - Ad 5
-    - cron: "0 10 * * *" # 10:00 - Ad 6
-    - cron: "0 12 * * *" # 12:00 - Ad 7
-    - cron: "0 14 * * *" # 14:00 - Ad 8
-    - cron: "0 16 * * *" # 16:00 - Ad 9
-    - cron: "0 18 * * *" # 18:00 - Ad 10
-    - cron: "0 20 * * *" # 20:00 - Ad 11
-    - cron: "0 22 * * *" # 22:00 - Ad 12
+    # Allow for a 5-minute tolerance
+    TOLERANCE="05"
+    CURRENT_TIME_MINUTES=$(date -u +"%M")
+    SCHEDULE_TIME_MINUTES="${SCHEDULE_TIME:3:2}"
+    
+    # Calculate the difference between current time and scheduled time
+    TIME_DIFF=$(($CURRENT_TIME_MINUTES - $SCHEDULE_TIME_MINUTES))
+    
+    # Check if the difference is within the tolerance (±5 minutes)
+    if [ "$TIME_DIFF" -gt "$TOLERANCE" ] || [ "$TIME_DIFF" -lt "-$TOLERANCE" ]; then
+      echo "Current time ($CURRENT_TIME) is not within the tolerance of the scheduled time ($SCHEDULE_TIME). Skipping job."
+      exit 0
+    fi
 
-jobs:
-  post-ad:
-    runs-on: ubuntu-latest
+    echo "AD_CONTENT=${{ matrix.ad.content }}" >> $GITHUB_ENV
+    echo "ACCOUNT_TOKEN=${{ secrets[matrix.ad.token] }}" >> $GITHUB_ENV
+    echo "DISCORD_URLS=${{ vars.DISCORD_URLS }}" >> $GITHUB_ENV
 
-    strategy:
-      matrix:
-        ad:
-          - { time: "00:00", content: "AD_1", token: "ACCOUNT_1_TOKEN" }
-          - { time: "02:00", content: "AD_2", token: "ACCOUNT_2_TOKEN" }
-          - { time: "04:00", content: "AD_3", token: "ACCOUNT_3_TOKEN" }
-          - { time: "06:00", content: "AD_4", token: "ACCOUNT_4_TOKEN" }
-          - { time: "08:00", content: "AD_5", token: "ACCOUNT_1_TOKEN" }
-          - { time: "10:00", content: "AD_6", token: "ACCOUNT_2_TOKEN" }
-          - { time: "12:00", content: "AD_7", token: "ACCOUNT_3_TOKEN" }
-          - { time: "14:00", content: "AD_8", token: "ACCOUNT_4_TOKEN" }
-          - { time: "16:00", content: "AD_9", token: "ACCOUNT_1_TOKEN" }
-          - { time: "18:00", content: "AD_10", token: "ACCOUNT_2_TOKEN" }
-          - { time: "20:00", content: "AD_11", token: "ACCOUNT_3_TOKEN" }
-          - { time: "22:00", content: "AD_12", token: "ACCOUNT_4_TOKEN" }
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Post Ad if Time Matches
-        run: |
-          CURRENT_TIME=$(date -u +"%H:%M")
-          echo "CURRENT_TIME: $CURRENT_TIME"
-          SCHEDULE_TIME="${{ matrix.ad.time }}"
-          echo "SCHEDULE_TIME: $SCHEDULE_TIME"
-
-          if [ "$CURRENT_TIME" != "$SCHEDULE_TIME" ]; then
-            echo "Current time ($CURRENT_TIME) does not match the scheduled time ($SCHEDULE_TIME). Skipping job."
-            exit 0
-          fi
-
-          echo "AD_CONTENT=${{ matrix.ad.content }}" >> $GITHUB_ENV
-          echo "ACCOUNT_TOKEN=${{ secrets[matrix.ad.token] }}" >> $GITHUB_ENV
-          echo "DISCORD_URLS=${{ vars.DISCORD_URLS }}" >> $GITHUB_ENV
-
-          echo "Posting ad..."
-          python3 1.py "${{ matrix.ad.content }}" "${{ secrets[matrix.ad.token] }}" "${{ vars.DISCORD_URLS }}"
-
-
+    echo "Posting ad..."
+    python3 1.py "${{ matrix.ad.content }}" "${{ secrets[matrix.ad.token] }}" "${{ vars.DISCORD_URLS }}"
