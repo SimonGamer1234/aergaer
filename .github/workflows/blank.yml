@@ -43,14 +43,14 @@ jobs:
           SCHEDULE_TIME="${{ matrix.ad.time }}"
           echo "SCHEDULE_TIME: $SCHEDULE_TIME"
           # Allow for a 5-minute tolerance
-          TOLERANCE="05"
+          TOLERANCE="45"
           CURRENT_TIME_MINUTES=$(date -u +"%M")
           SCHEDULE_TIME_MINUTES="${SCHEDULE_TIME:3:2}"
           
-          # Calculate the difference between current time and scheduled time
+     
           TIME_DIFF=$(($CURRENT_TIME_MINUTES - $SCHEDULE_TIME_MINUTES))
           
-          # Check if the difference is within the tolerance (±5 minutes)
+
           if [ "$TIME_DIFF" -gt "$TOLERANCE" ] || [ "$TIME_DIFF" -lt "-$TOLERANCE" ]; then
             echo "Current time ($CURRENT_TIME) is not within the tolerance of the scheduled time ($SCHEDULE_TIME). Skipping job."
             exit 0
