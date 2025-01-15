@@ -23,64 +23,40 @@ jobs:
     strategy:
       matrix:
         ad:
-          - { time: "0 0", content: "AD_1", token: "ACCOUNT_1_TOKEN" }
-          - { time: "0 2", content: "AD_2", token: "ACCOUNT_2_TOKEN" }
-          - { time: "0 4", content: "AD_3", token: "ACCOUNT_3_TOKEN" }
-          - { time: "0 6", content: "AD_4", token: "ACCOUNT_4_TOKEN" }
-          - { time: "0 8", content: "AD_5", token: "ACCOUNT_1_TOKEN" }
-          - { time: "0 10", content: "AD_6", token: "ACCOUNT_2_TOKEN" }
-          - { time: "0 12", content: "AD_7", token: "ACCOUNT_3_TOKEN" }
-          - { time: "0 14", content: "AD_8", token: "ACCOUNT_4_TOKEN" }
-          - { time: "0 16", content: "AD_9", token: "ACCOUNT_1_TOKEN" }
-          - { time: "0 18", content: "AD_10", token: "ACCOUNT_2_TOKEN" }
-          - { time: "0 20", content: "AD_11", token: "ACCOUNT_3_TOKEN" }
-          - { time: "0 22", content: "AD_12", token: "ACCOUNT_4_TOKEN" }
+          - { time: "00:00", content: "AD_1", token: "ACCOUNT_1_TOKEN" }
+          - { time: "02:00", content: "AD_2", token: "ACCOUNT_2_TOKEN" }
+          - { time: "04:00", content: "AD_3", token: "ACCOUNT_3_TOKEN" }
+          - { time: "06:00", content: "AD_4", token: "ACCOUNT_4_TOKEN" }
+          - { time: "08:00", content: "AD_5", token: "ACCOUNT_1_TOKEN" }
+          - { time: "10:00", content: "AD_6", token: "ACCOUNT_2_TOKEN" }
+          - { time: "12:00", content: "AD_7", token: "ACCOUNT_3_TOKEN" }
+          - { time: "14:00", content: "AD_8", token: "ACCOUNT_4_TOKEN" }
+          - { time: "16:00", content: "AD_9", token: "ACCOUNT_1_TOKEN" }
+          - { time: "18:00", content: "AD_10", token: "ACCOUNT_2_TOKEN" }
+          - { time: "20:00", content: "AD_11", token: "ACCOUNT_3_TOKEN" }
+          - { time: "22:00", content: "AD_12", token: "ACCOUNT_4_TOKEN" }
 
     steps:
-      # Step 1: Check out the repository
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # Step 2: Verify that the Python script exists
-      - name: List files in directory
-        run: ls -R
-
-      # Step 3: Check the scheduled time and exit if it doesn't match
-      - name: Check Scheduled Time
-        id: time-check
+      - name: Post Ad if Time Matches
         run: |
           CURRENT_TIME=$(date -u +"%H:%M")
           echo "CURRENT_TIME: $CURRENT_TIME"
           SCHEDULE_TIME="${{ matrix.ad.time }}"
           echo "SCHEDULE_TIME: $SCHEDULE_TIME"
+
           if [ "$CURRENT_TIME" != "$SCHEDULE_TIME" ]; then
-            echo "::set-output name=skip::true"
+            echo "Current time ($CURRENT_TIME) does not match the scheduled time ($SCHEDULE_TIME). Skipping job."
             exit 0
           fi
-        continue-on-error: true
 
-      # Step 4: Exit job early if time doesn't match
-      - name: Skip Job if Time Doesn't Match
-        if: steps.time-check.outputs.skip == 'true'
-        run: |
-          echo "Skipping job as current time doesn't match the schedule."
-          exit 0
-
-      # Step 5: Set environment variables for the ad
-      - name: Set Ad Variables
-        run: |
           echo "AD_CONTENT=${{ matrix.ad.content }}" >> $GITHUB_ENV
           echo "ACCOUNT_TOKEN=${{ secrets[matrix.ad.token] }}" >> $GITHUB_ENV
           echo "DISCORD_URLS=${{ vars.DISCORD_URLS }}" >> $GITHUB_ENV
 
-      # Step 6: Debug variables (optional, but useful for troubleshooting)
-      - name: Debug Variables
-        run: |
-          echo "Ad Content: ${{ env.AD_CONTENT }}"
-          echo "Account Token: [HIDDEN]"
-          echo "Discord URLs: ${{ env.DISCORD_URLS }}"
+          echo "Posting ad..."
+          python3 1.py "${{ matrix.ad.content }}" "${{ secrets[matrix.ad.token] }}" "${{ vars.DISCORD_URLS }}"
 
-      # Step 7: Post the ad using the Python script
-      - name: Post Ad
-        run: python3 1.py "${{ env.AD_CONTENT }}" "${{ env.ACCOUNT_TOKEN }}" "${{ env.DISCORD_URLS }}"
 
