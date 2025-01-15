@@ -53,9 +53,11 @@ jobs:
           echo "CURRENT_TIME: $CURRENT_TIME"
           SCHEDULE_TIME="${{ matrix.ad.time }}"
           echo "SCHEDULE_TIME: $SCHEDULE_TIME"
-          if [[ "$CURRENT_TIME" != "$SCHEDULE_TIME" ]]; then
+          if [ "$CURRENT_TIME" != "$SCHEDULE_TIME" ]; then
             echo "Current time ($CURRENT_TIME) does not match the scheduled time ($SCHEDULE_TIME). Skipping job."
             exit 0
+          else
+            echo "Scheduled time matched. Proceeding with the job."
           fi
 
       # Step 4: Set environment variables for the ad
