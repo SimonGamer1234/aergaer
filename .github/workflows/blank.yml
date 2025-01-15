@@ -45,7 +45,7 @@ jobs:
           # Allow for a 5-minute tolerance
           TOLERANCE="45"
           CURRENT_TIME_MINUTES=$(date -u +"%M")
-          SCHEDULE_TIME_MINUTES="${SCHEDULE_TIME:3:2}"
+          SCHEDULE_TIME_MINUTES="${SCHEDULE_TIME:2:1}"
           
      
           TIME_DIFF=$(($CURRENT_TIME_MINUTES - $SCHEDULE_TIME_MINUTES))
