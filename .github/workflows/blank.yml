@@ -45,10 +45,12 @@ jobs:
           # Allow for a 5-minute tolerance
           TOLERANCE="1"
           CURRENT_TIME_HOURS=$(date -u +"%H")
+          echo "CURRENT_TIME_HOURS: $CURRENT_TIME_HOURS"
           SCHEDULE_TIME_HOURS="${SCHEDULE_TIME:1:2}"
-          
+          echo "SCHEDULE_TIME_HOURS: $SCHEDULE_TIME_HOURS"
      
           TIME_DIFF=$(($CURRENT_TIME_HOURS - $SCHEDULE_TIME_HOURS))
+          echo "TIME_DIFF: TIME_DIFF"
           
 
           if [ "$TIME_DIFF" -gt "$TOLERANCE" ] || [ "$TIME_DIFF" -lt "-$TOLERANCE" ]; then
