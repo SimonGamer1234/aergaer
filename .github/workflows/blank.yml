@@ -12,7 +12,7 @@ on:
     - cron: "0 14 * * *" # 14:00 - Ad 8
     - cron: "0 16 * * *" # 16:00 - Ad 9
     - cron: "0 18 * * *" # 18:00 - Ad 10
-    - cron: "0 19 * * *" # 20:00 - Ad 11
+    - cron: "0 20 * * *" # 20:00 - Ad 11
     - cron: "0 22 * * *" # 22:00 - Ad 12
 jobs:
   post-ad:
@@ -30,7 +30,7 @@ jobs:
           - { time: "14:00", content: "AD_8", token: "ACCOUNT_4_TOKEN" }
           - { time: "16:00", content: "AD_9", token: "ACCOUNT_1_TOKEN" }
           - { time: "18:00", content: "AD_10", token: "ACCOUNT_2_TOKEN" }
-          - { time: "19:00", content: "AD_11", token: "ACCOUNT_3_TOKEN" }
+          - { time: "20:00", content: "AD_11", token: "ACCOUNT_3_TOKEN" }
           - { time: "22:00", content: "AD_12", token: "ACCOUNT_4_TOKEN" }
     steps:
       - name: Checkout Repository
