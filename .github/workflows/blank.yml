@@ -1,4 +1,5 @@
 name: Ads Scheduler
+
 on:
   workflow_dispatch:
   schedule:
@@ -14,53 +15,54 @@ on:
     - cron: "0 18 * * *" # 18:00 - Ad 10
     - cron: "0 20 * * *" # 20:00 - Ad 11
     - cron: "0 22 * * *" # 22:00 - Ad 12
+
 jobs:
   post-ad:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ad:
-          - { time: "00:00", content: "AD_1", token: "ACCOUNT_1_TOKEN" }
-          - { time: "02:00", content: "AD_2", token: "ACCOUNT_2_TOKEN" }
-          - { time: "04:00", content: "AD_3", token: "ACCOUNT_3_TOKEN" }
-          - { time: "06:00", content: "AD_4", token: "ACCOUNT_4_TOKEN" }
-          - { time: "08:00", content: "AD_5", token: "ACCOUNT_1_TOKEN" }
-          - { time: "10:00", content: "AD_6", token: "ACCOUNT_2_TOKEN" }
-          - { time: "12:00", content: "AD_7", token: "ACCOUNT_3_TOKEN" }
-          - { time: "14:00", content: "AD_8", token: "ACCOUNT_4_TOKEN" }
-          - { time: "16:00", content: "AD_9", token: "ACCOUNT_1_TOKEN" }
-          - { time: "18:00", content: "AD_10", token: "ACCOUNT_2_TOKEN" }
-          - { time: "20:00", content: "AD_11", token: "ACCOUNT_3_TOKEN" }
-          - { time: "22:00", content: "AD_12", token: "ACCOUNT_4_TOKEN" }
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-      
-      - name: Post Ad if Time Matches
-        run: |
-          CURRENT_TIME=$(date -u +"%H:%M")
-          echo "CURRENT_TIME: $CURRENT_TIME"
-          SCHEDULE_TIME="${{ matrix.ad.time }}"
-          echo "SCHEDULE_TIME: $SCHEDULE_TIME"
-          # Allow for a 5-minute tolerance
-          TOLERANCE="1"
-          CURRENT_TIME_HOURS=$(date -u +"%H")
-          CURRENT_TIME_HOURS=$((10#$CURRENT_TIME_HOURS))  # Convert to integer
-          echo "CURRENT_TIME_HOURS: $CURRENT_TIME_HOURS"
-          SCHEDULE_TIME_HOURS="${SCHEDULE_TIME:0:2}"
-          SCHEDULE_TIME_HOURS=$((10#$SCHEDULE_TIME_HOURS))
-          echo "SCHEDULE_TIME_HOURS: $SCHEDULE_TIME_HOURS"
-     
-          TIME_DIFF=$(($CURRENT_TIME_HOURS - $SCHEDULE_TIME_HOURS))
-          echo "TIME_DIFF: $TIME_DIFF"
-          
 
-          if [ "$TIME_DIFF" -gt "$TOLERANCE" ] || [ "$TIME_DIFF" -lt "-$TOLERANCE" ]; then
-            echo "Current time ($CURRENT_TIME) is not within the tolerance of the scheduled time ($SCHEDULE_TIME). Skipping job."
-            exit 0
+      - name: Load Current Ad Number
+        run: |
+          if [ ! -f ad_tracker.txt ]; then
+            echo "0" > ad_tracker.txt
           fi
-          echo "AD_CONTENT=${{ matrix.ad.content }}" >> $GITHUB_ENV
-          echo "ACCOUNT_TOKEN=${{ secrets[matrix.ad.token] }}" >> $GITHUB_ENV
-          echo "DISCORD_URLS=${{ vars.DISCORD_URLS }}" >> $GITHUB_ENV
+          CURRENT_AD=$(cat ad_tracker.txt)
+          echo "CURRENT_AD: $CURRENT_AD"
+          echo "CURRENT_AD=$CURRENT_AD" >> $GITHUB_ENV
+
+      - name: Determine Account Token
+        run: |
+          case $(( ${{ env.CURRENT_AD }} % 4 )) in
+            0) TOKEN=${{ secrets.ACCOUNT_1_TOKEN }} ;;
+            1) TOKEN=${{ secrets.ACCOUNT_2_TOKEN }} ;;
+            2) TOKEN=${{ secrets.ACCOUNT_3_TOKEN }} ;;
+            3) TOKEN=${{ secrets.ACCOUNT_4_TOKEN }} ;;
+          esac
+          echo "TOKEN=$TOKEN" >> $GITHUB_ENV
+
+      - name: Post Ad
+        env:
+          DISCORD_URLS: ${{ vars.DISCORD_URLS }}
+          ACCOUNT_TOKEN: ${{ env.TOKEN }}
+        run: |
           echo "Posting ad..."
-          python3 1.py "${{ matrix.ad.content }}" "${{ secrets[matrix.ad.token] }}" "${{ vars.DISCORD_URLS }}"
+          python3 1.py "AD_${{ env.CURRENT_AD }}" "$ACCOUNT_TOKEN" "$DISCORD_URLS"
+
+      - name: Update Ad Tracker
+        run: |
+          CURRENT_AD=$(( ${{ env.CURRENT_AD }} ))
+          NEXT_AD=$(( (CURRENT_AD + 1) % 12 ))  # Assuming 12 ads in total
+          echo "$NEXT_AD" > ad_tracker.txt
+          echo "Updated tracker to NEXT_AD=$NEXT_AD"
+
+      - name: Commit Updated Tracker
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ad_tracker.txt
+          git commit -m "Update ad tracker to NEXT_AD=$NEXT_AD"
+          git push
+
