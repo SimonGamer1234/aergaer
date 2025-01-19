@@ -42,13 +42,12 @@ jobs:
       - name: Determine Account Token
         run: |
           case $(( ${{ env.CURRENT_AD }} % 4 )) in
-            0) TOKEN=${{ vars.ACCOUNT_1_TOKEN }} ;;
-            1) TOKEN=${{ vars.ACCOUNT_2_TOKEN }} ;;
-            2) TOKEN=${{ vars.ACCOUNT_3_TOKEN }} ;;
-            3) TOKEN=${{ vars.ACCOUNT_4_TOKEN }} ;;
+            0) TOKEN=${{ secrets.ACCOUNT_1_TOKEN }} ;;
+            1) TOKEN=${{ secrets.ACCOUNT_2_TOKEN }} ;;
+            2) TOKEN=${{ secrets.ACCOUNT_3_TOKEN }} ;;
+            3) TOKEN=${{ secrets.ACCOUNT_4_TOKEN }} ;;
           esac
           echo "TOKEN=$TOKEN" >> $GITHUB_ENV
-          echo "TOKEN"
 
       # Step 4: Determine Ad Content
       - name: Determine Ad Content
