@@ -48,6 +48,7 @@ jobs:
             3) TOKEN=${{ vars.ACCOUNT_4_TOKEN }} ;;
           esac
           echo "TOKEN=$TOKEN" >> $GITHUB_ENV
+          echo "TOKEN"
 
       # Step 4: Determine Ad Content
       - name: Determine Ad Content
