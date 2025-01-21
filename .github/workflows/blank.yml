@@ -56,18 +56,7 @@ jobs:
             2) AD_CONTENT="${{ vars.AD_3 }}" ;;
             3) AD_CONTENT="${{ vars.AD_4 }}" ;;
             4) AD_CONTENT="${{ vars.AD_5 }}" ;;
-            5) AD_CONTENT=$(# 🎶 Shockwaves Radio | Be a DJ! 🎶
-          *"Where Music meets Gaming!!"* 🎮
-          
-          Join the ultimate hit-music station and feel the vibe! 🚀  
-          **No experience? It's not needed: hiring remote Radio Presenters!**
-          
-          👕 Merchandise: https://crate-expectations-online.com/
-          🌐 Join our Discord: https://discord.gg/JCw5eaVsbP
-          📻 Tune in: https://shockwavesradio.com
-          
-          https://cdn.discordapp.com/attachments/910917208547409930/1330923640476143676/Shockwaves_Radio_GIF.gif?ex=678fbebb&is=678e6d3b&hm=406e5c8ecb83c6214b88bd3cbdbb01996a6909016fb7c842bc4cf5e28c120661&
-          ) ;;
+            5) AD_CONTENT="${{ vars.AD_6 }}" ;;
             6) AD_CONTENT="${{ vars.AD_7 }}" ;;
             7) AD_CONTENT="${{ vars.AD_8 }}" ;;
             8) AD_CONTENT="${{ vars.AD_9 }}" ;;
