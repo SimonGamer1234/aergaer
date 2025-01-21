@@ -22,8 +22,15 @@ secret_var = os.getenv("SECRET_VAR")
 
 urls = repo_var_two.split(',')
 
+tracker_file = "ad_tracker.txt"
 
-CurrentAd = 
+if not os.path.exists(tracker_file):
+    with open(tracker_file, "w") as file:
+        file.write("0")  # Initialize with 0
+with open(tracker_file, "r") as file:
+    current_ad = int(file.read().strip())
+
+CurrentAd = f"AD{current_ad}
 
 # Print them or use them in your script
 print(f"Repo Variable One: {repo_var_one}")
