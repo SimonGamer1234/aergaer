@@ -51,7 +51,7 @@ jobs:
       - name: Determine Ad Content
         run: |
           env: 
-            AD: ${{ vars.AD_6 ]]
+            AD: ${{ vars.AD_6 }}
       # Step 5: Post Ad
       - name: Post Ad
         env:
