@@ -15,9 +15,47 @@ jobs:
 
       - name: IDK
         env: 
-            REPO_VAR_ONE: ${{ vars.AD_1}}
+            REPO_VAR_1: ${{ vars.AD_1}}
+            REPO_VAR_2: ${{ vars.AD_2}}
+            REPO_VAR_3: ${{ vars.AD_3}}
+            REPO_VAR_4: ${{ vars.AD_4}}
+            REPO_VAR_5: ${{ vars.AD_5}}
+            REPO_VAR_6: ${{ vars.AD_6}}
+            REPO_VAR_7: ${{ vars.AD_7}}
+            REPO_VAR_8: ${{ vars.AD_8}}
+            REPO_VAR_9: ${{ vars.AD_9}}
+            REPO_VAR_10: ${{ vars.AD_10}}
+            REPO_VAR_11: ${{ vars.AD_11}}
+            REPO_VAR_12: ${{ vars.AD_12}}
             REPO_VAR_TWO: ${{ vars.DISCORD_URLS}}
             SECRET_VAR: ${{ secrets.ACCOUNT_1_TOKEN}}
         run: |
           python3 1.py 
- 
+
+      - name: Load Current Ad Number
+        run: |
+          if [ ! -f ad_tracker.txt ]; then
+            echo "0" > ad_tracker.txt
+          fi
+          CURRENT_AD=$(cat ad_tracker.txt)
+          echo "CURRENT_AD: $CURRENT_AD"
+          echo "CURRENT_AD=$CURRENT_AD" >> $GITHUB_ENV
+      
+      - name: Update Ad Tracker
+        run: |
+          CURRENT_AD=$(( ${{ env.CURRENT_AD }} ))
+          NEXT_AD=$(( (CURRENT_AD + 1) % 12 ))  # Assuming 12 ads in total
+          echo "$NEXT_AD" > ad_tracker.txt
+          echo "Updated tracker to NEXT_AD=$NEXT_AD"
+      
+      - name: Commit Updated Tracker
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ad_tracker.txt
+          git commit -m "Update ad tracker to NEXT_AD=${{ env.NEXT_AD }}"
+          git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git" HEAD:${{ github.ref_name }}"
+      
+       
