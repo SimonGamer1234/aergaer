@@ -64,8 +64,8 @@ jobs:
             10) AD_CONTENT="${{ vars.AD_11 }}" ;;
             11) AD_CONTENT="${{ vars.AD_12 }}" ;;
           esac
-          echo "AD_CONTENT=$AD_CONTENT"
-          echo "AD_CONTENT=$AD_CONTENT" >> $GITHUB_ENV
+          echo "AD_CONTENT= '$AD_CONTENT'"
+          echo "AD_CONTENT= '$AD_CONTEN'" >> $GITHUB_ENV
       # Step 5: Post Ad
       - name: Post Ad
         env:
