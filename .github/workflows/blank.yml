@@ -51,37 +51,32 @@ jobs:
       - name: Determine Ad Content
         run: |
           case ${{ env.CURRENT_AD }} in
-            0) AD_CONTENT="""${{ vars.AD_1 }}""" ;;
-            1) AD_CONTENT="""${{ vars.AD_2 }}""" ;;
-            2) AD_CONTENT="""${{ vars.AD_3 }}""" ;;
-            3) AD_CONTENT="""${{ vars.AD_4 }}""" ;;
-            4) AD_CONTENT="""${{ vars.AD_5 }}""" ;;
+            0) AD_CONTENT="${{ vars.AD_1 }}" ;;
+            1) AD_CONTENT="${{ vars.AD_2 }}" ;;
+            2) AD_CONTENT="${{ vars.AD_3 }}" ;;
+            3) AD_CONTENT="${{ vars.AD_4 }}" ;;
+            4) AD_CONTENT="${{ vars.AD_5 }}" ;;
             5) AD_CONTENT=$(cat <<EOF
-            # 🎶 Shockwaves Radio | Be a DJ! 🎶
-            *"Where Music meets Gaming!!"* 🎮
-            
-            Join the ultimate hit-music station and feel the vibe! 🚀  
-            **No experience? It's not needed: hiring remote Radio Presenters!**
-            
-            👕 Merchandise: https://crate-expectations-online.com/
-            🌐 Join our Discord: https://discord.gg/JCw5eaVsbP
-            📻 Tune in: https://shockwavesradio.com
-            
-            https://cdn.discordapp.com/attachments/910917208547409930/1330923640476143676/Shockwaves_Radio_GIF.gif?ex=678fbebb&is=678e6d3b&hm=406e5c8ecb83c6214b88bd3cbdbb01996a6909016fb7c842bc4cf5e28c120661&
-            EOF
-            ) ;;
-
-            6) AD_CONTENT="""${{ vars.AD_7 }}""" ;;
-            7) AD_CONTENT="""${{ vars.AD_8 }}""" ;;
-            8) AD_CONTENT="""${{ vars.AD_9 }}""" ;;
-            9) AD_CONTENT="""${{ vars.AD_10 }}""" ;;
-            10) AD_CONTENT="""${{ vars.AD_11 }}""" ;;
-            11) AD_CONTENT="""${{ vars.AD_12 }}""" ;;
+          # 🎶 Shockwaves Radio | Be a DJ! 🎶
+          *"Where Music meets Gaming!!"* 🎮
+          
+          Join the ultimate hit-music station and feel the vibe! 🚀  
+          **No experience? It's not needed: hiring remote Radio Presenters!**
+          
+          👕 Merchandise: https://crate-expectations-online.com/
+          🌐 Join our Discord: https://discord.gg/JCw5eaVsbP
+          📻 Tune in: https://shockwavesradio.com
+          
+          https://cdn.discordapp.com/attachments/910917208547409930/1330923640476143676/Shockwaves_Radio_GIF.gif?ex=678fbebb&is=678e6d3b&hm=406e5c8ecb83c6214b88bd3cbdbb01996a6909016fb7c842bc4cf5e28c120661&
+          EOF
+          ) ;;
+            6) AD_CONTENT="${{ vars.AD_7 }}" ;;
+            7) AD_CONTENT="${{ vars.AD_8 }}" ;;
+            8) AD_CONTENT="${{ vars.AD_9 }}" ;;
+            9) AD_CONTENT="${{ vars.AD_10 }}" ;;
+            10) AD_CONTENT="${{ vars.AD_11 }}" ;;
+            11) AD_CONTENT="${{ vars.AD_12 }}" ;;
           esac
-          # Define ad content as a single repository variable in a JSON-like format
-          AD_CONTENTS=${{ vars.AD_CONTENTS }}  # Example: '["Ad 1 Content", "Ad 2 Content", ..., "Ad 12 Content"]'
-          CURRENT_AD_INDEX=${{ env.CURRENT_AD }}
-          AD_CONTENT=$(echo "$AD_CONTENTS" | jq -r ".[$CURRENT_AD_INDEX]")
           echo "AD_CONTENT=$AD_CONTENT"
           echo "AD_CONTENT=$AD_CONTENT" >> $GITHUB_ENV
       # Step 5: Post Ad
