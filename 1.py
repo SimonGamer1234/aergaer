@@ -1,6 +1,7 @@
 import os
 import random
 import requests
+import time
 
 # Retrieve the environment variables
 repo_var_one = os.getenv("REPO_VAR_ONE")
