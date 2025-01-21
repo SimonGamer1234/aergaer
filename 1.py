@@ -33,7 +33,6 @@ with open(tracker_file, "r") as file:
 CurrentAd = f"AD{current_ad}"
 
 # Print them or use them in your script
-print(f"Repo Variable One: {repo_var_1}")
 print(f"Repo Variable Two: {repo_var_two}")
 print(f"Secret Variable: {secret_var}")
 
