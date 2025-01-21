@@ -16,7 +16,7 @@ jobs:
       - name: IDK
         env: 
             REPO_VAR_ONE: ${{ vars.AD_1}}
-            REPO_VAR_TWO: ${{ vars.URLS}}
+            REPO_VAR_TWO: ${{ vars.DISCORD_URLS}}
             SECRET_VAR: ${{ secrets.ACCOUNT_1_TOKEN}}
         run: |
           python3 1.py 
