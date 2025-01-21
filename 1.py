@@ -9,7 +9,7 @@ repo_var_one = os.getenv("REPO_VAR_ONE")
 repo_var_two = os.getenv("REPO_VAR_TWO")
 secret_var = os.getenv("SECRET_VAR")
 
-urls = repo_war_two.split(,)
+urls = repo_war_two.split(',')
 
 # Print them or use them in your script
 print(f"Repo Variable One: {repo_var_one}")
