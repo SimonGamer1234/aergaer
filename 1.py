@@ -30,7 +30,7 @@ if not os.path.exists(tracker_file):
 with open(tracker_file, "r") as file:
     current_ad = int(file.read().strip())
 
-CurrentAd = f"AD{current_ad}
+CurrentAd = f"AD{current_ad}"
 
 # Print them or use them in your script
 print(f"Repo Variable One: {repo_var_one}")
