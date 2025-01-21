@@ -7,7 +7,7 @@ import os
 # Parse the input arguments
 urls_string = sys.argv[3]  # The repository variable containing the URLs as a string
 token = sys.argv[2]        # Authorization token
-advertisement = os.getenv('AD_6')
+advertisement = sys.argv[1]  
 tracker_file = "ad_tracker.txt"
 # Split the URLs string into a list of URLs
 urls = [url.strip() for url in urls_string.split(",")]
