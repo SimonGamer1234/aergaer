@@ -52,20 +52,10 @@ jobs:
       # Step 4: Determine Ad Content
       - name: Determine Ad Content
         run: |
-          case ${{ env.CURRENT_AD }} in
-            0) AD_CONTENT="""${{ vars.AD_1 }}""" ;;
-            1) AD_CONTENT="""${{ vars.AD_2 }}""" ;;
-            2) AD_CONTENT="""${{ vars.AD_3 }}""" ;;
-            3) AD_CONTENT="""${{ vars.AD_4 }}""" ;;
-            4) AD_CONTENT="""${{ vars.AD_5 }}""" ;;
-            5) AD_CONTENT="""${{ vars.AD_6 }}""" ;;
-            6) AD_CONTENT="""${{ vars.AD_7 }}""" ;;
-            7) AD_CONTENT="""${{ vars.AD_8 }}""" ;;
-            8) AD_CONTENT="""${{ vars.AD_9 }}""" ;;
-            9) AD_CONTENT="""${{ vars.AD_10 }}""" ;;
-            10) AD_CONTENT="""${{ vars.AD_11 }}""" ;;
-            11) AD_CONTENT="""${{ vars.AD_12 }}""" ;;
-          esac
+          # Define ad content as a single repository variable in a JSON-like format
+          AD_CONTENTS=${{ vars.AD_CONTENTS }}  # Example: '["Ad 1 Content", "Ad 2 Content", ..., "Ad 12 Content"]'
+          CURRENT_AD_INDEX=${{ env.CURRENT_AD }}
+          AD_CONTENT=$(echo "$AD_CONTENTS" | jq -r ".[$CURRENT_AD_INDEX]")
           echo "AD_CONTENT=$AD_CONTENT"
           echo "AD_CONTENT=$AD_CONTENT" >> $GITHUB_ENV
 
