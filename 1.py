@@ -39,9 +39,6 @@ Token = Tokens[current_ad%4]
 print = current_ad%4
 CurrentAd = Ads[current_ad]
 
-# Print them or use them in your script
-print(f"Repo Variable Two: {repo_var_two}")
-print(f"Secret Variable: {secret_var}")
 
 header = {"Authorization": secret_var}
 payload = {"content": CurrentAd}
