@@ -31,7 +31,7 @@ if not os.path.exists(tracker_file):
         file.write("0")  # Initialize with 0
 with open(tracker_file, "r") as file:
     current_ad = int(file.read().strip())
-
+if current_ad == 
 CurrentAd = Ads[current_ad]
 
 # Print them or use them in your script
