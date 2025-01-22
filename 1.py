@@ -50,7 +50,7 @@ for link in urls:
     sleeptime = random.uniform(2, 3)
     try:
         res = requests.post(link, data=payload, headers=header)
-        print(f"Posted to {link}: {res.status_code}")  # Print response status
+        print(f"Posted to {link} : {res.status_code}")  # Print response status
     except requests.RequestException as e:
         print(f"Error posting to {link}: {e}")
     print(f"Waiting {sleeptime} seconds...")
