@@ -23,7 +23,7 @@ secret_var = os.getenv("SECRET_VAR")
 urls = repo_var_two.split(',')
 
 Ads = [AD1, AD2, AD3, AD4, AD5, AD6, AD7, AD8, AD9, AD10, AD11, AD12]
-
+Tokens = [TOKEN1, TOKEN2, TOKEN3, TOKEN4]
 tracker_file = "ad_tracker.txt"
 
 if not os.path.exists(tracker_file):
@@ -31,7 +31,9 @@ if not os.path.exists(tracker_file):
         file.write("0")  # Initialize with 0
 with open(tracker_file, "r") as file:
     current_ad = int(file.read().strip())
-if current_ad == 
+
+Token = Tokens[current_ad%4]
+print = current_ad%4
 CurrentAd = Ads[current_ad]
 
 # Print them or use them in your script
