@@ -18,7 +18,10 @@ AD10 = os.getenv("REPO_VAR_10")
 AD11 = os.getenv("REPO_VAR_11")
 AD12 = os.getenv("REPO_VAR_12")
 repo_var_two = os.getenv("REPO_VAR_TWO")
-secret_var = os.getenv("SECRET_VAR")
+TOKEN1 = os.getenv("ACCOUNT_1_TOKEN")
+TOKEN2 = os.getenv("ACCOUNT_2_TOKEN")
+TOKEN3 = os.getenv("ACCOUNT_3_TOKEN")
+TOKEN4 = os.getenv("ACCOUNT_4_TOKEN")
 
 urls = repo_var_two.split(',')
 
