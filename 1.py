@@ -40,7 +40,7 @@ print = current_ad%4
 CurrentAd = Ads[current_ad]
 
 
-header = {"Authorization": secret_var}
+header = {"Authorization": Token}
 payload = {"content": CurrentAd}
 
 # Loop through the links and make POST requests
