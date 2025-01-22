@@ -42,7 +42,7 @@ Token = Tokens[token_index]
 CurrentAd = Ads[current_ad]
 
 
-header = {"Authorization": TOKEN1}
+header = {"Authorization": os.getenv("ACCOUNT_1_TOKEN")}
 payload = {"content": CurrentAd}
 
 # Loop through the links and make POST requests
