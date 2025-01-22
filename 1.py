@@ -36,6 +36,7 @@ with open(tracker_file, "r") as file:
     current_ad = int(file.read().strip())
 
 token_index = current_ad % 4  # Use a descriptive variable name
+print(current_ad)
 print(token_index)
 Token = Tokens[token_index]
 CurrentAd = Ads[current_ad]
