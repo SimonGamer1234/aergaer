@@ -35,7 +35,10 @@ if not os.path.exists(tracker_file):
 with open(tracker_file, "r") as file:
     current_ad = int(file.read().strip())
 
-Token = Tokens[current_ad%4]
+token_index = current_ad % 4  # Use a descriptive variable name
+
+Token = Tokens[token_index]
+
 print = current_ad%4
 CurrentAd = Ads[current_ad]
 
