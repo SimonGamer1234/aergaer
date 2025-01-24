@@ -51,7 +51,17 @@ for link in urls:
     try:
         res = requests.post(link, data=payload, headers=header)
         print(f"Posted to {link} : {res.status_code}")  # Print response status
+         if res.status_code != 200:
+          Errors.append((link,res.status_code))
     except requests.RequestException as e:
         print(f"Error posting to {link}: {e}")
     print(f"Waiting {sleeptime} seconds...")
     time.sleep(sleeptime)
+
+print(Errors)
+print(str(Errors))
+link1 = "https://discord.com/api/v9/channels/1300080115945836696/messages"
+header1 = {"Authorization": TOKEN1}
+payload1 = {"content": str(Errors)}
+res1 = requests.post(link1, data=payload1, headers=header1)
+print(f"Posted to {link1} : {res1.status_code}")  # Print response status
