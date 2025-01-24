@@ -51,8 +51,8 @@ for link in urls:
     try:
         res = requests.post(link, data=payload, headers=header)
         print(f"Posted to {link} : {res.status_code}")  # Print response status
-         if res.status_code != 200:
-          Errors.append((link,res.status_code,token_index))
+        if res.status_code != 200:
+            Errors.append((link,res.status_code,token_index))
     except requests.RequestException as e:
         print(f"Error posting to {link}: {e}")
     print(f"Waiting {sleeptime} seconds...")
