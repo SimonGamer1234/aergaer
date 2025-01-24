@@ -24,7 +24,7 @@ TOKEN3 = os.getenv("TOKEN_SCRT_3")
 TOKEN4 = os.getenv("TOKEN_SCRT_4")
 
 urls = URLS.split(',')
-
+Errors = []
 Ads = [AD1, AD2, AD3, AD4, AD5, AD6, AD7, AD8, AD9, AD10, AD11, AD12]
 Tokens = [TOKEN1, TOKEN2, TOKEN3, TOKEN4]
 tracker_file = "ad_tracker.txt"
