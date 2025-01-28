@@ -51,7 +51,7 @@ for link in urls:
     try:
         res = requests.post(link, data=payload, headers=header)
         print(f"Posted to {link} : {res.status_code}")  # Print response status
-        print(res.e)
+        print(res.text)
         if res.status_code != 200:
             Errors.append((link,res.status_code,token_index))
     except requests.RequestException as e:
