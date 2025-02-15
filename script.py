@@ -33,7 +33,7 @@ for Ad in Ads:
   header = {"Authorization": TOKEN3}   
   params = {"content": Ad, "author_id":author_ids, "limit": 25}
   for ID in ids:
-    response = requests.get(f"https://discord.com/api/v10/channels/{ID}", headers=headers)
+    response = requests.get(f"https://discord.com/api/v10/channels/{ID}", headers=header)
     data = response.json()
     server_id = data['guild_id']
     intID = int(server_id)
