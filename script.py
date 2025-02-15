@@ -33,7 +33,10 @@ for Ad in Ads:
   header = {"Authorization": TOKEN3}   
   params = {"content": Ad, "author_id":author_ids, "limit": 25}
   for ID in ids:
-    intID = int(ID)
+    response = requests.get(f"https://discord.com/api/v10/channels/{ID}", headers=headers)
+    data = response.json()
+    server_id = data['guild_id']
+    intID = int(server_id)
     link = f"https://discord.com/api/v9/guilds/{intID}/messages/search"
     print(link)
     time.sleep(random.uniform(2,3))
