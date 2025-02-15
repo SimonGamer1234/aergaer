@@ -54,4 +54,4 @@ for Ad in Ads:
             print(res.text)
     else:
         print(f"Request failed with status code {res.status_code}: {res.text}")
-    print(totalcount)
+  print(totalcount)
