@@ -31,7 +31,7 @@ for Ad in Ads:
 print(Ads)
 for Ad in Ads:
   header = {"Authorization": TOKEN3}   
-  params = {"content": Ad, "author_id":author_ids, "limit": 100}
+  params = {"content": Ad, "author_id":author_ids, "limit": 25}
   for ID in ids:
     intID = int(ID)
     link = f"https://discord.com/api/v9/guilds/{intID}/messages/search"
