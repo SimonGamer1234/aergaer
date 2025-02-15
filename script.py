@@ -31,6 +31,7 @@ for Ad in Ads:
     
 print(Ads)
 for Ad in Ads:
+  totalcount = 0
   header = {"Authorization": TOKEN3}   
   params = {"content": Ad, "author_id":author_ids, "limit": 25}
   for ID in ids:
@@ -48,9 +49,9 @@ for Ad in Ads:
             total_results = data.get("total_results", 0)
             totalcount += int(total_results)
             print(total_results)  # Parsed JSON response
-            print(totalcount)
         except requests.exceptions.JSONDecodeError:
             print("Response is not JSON. Raw response:")
             print(res.text)
     else:
         print(f"Request failed with status code {res.status_code}: {res.text}")
+    print(totalcount)
