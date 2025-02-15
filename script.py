@@ -26,7 +26,7 @@ Ads = [AD1, AD2, AD3, AD4, AD5, AD6, AD7, AD8, AD9, AD10, AD11, AD12]
 for Ad in Ads:
   for Ad2 in Ads:
     if Ad == Ad2:
-      remove(Ad2)
+      Ads.remove(Ad2)
     
 print(Ads)
 for Ad in Ads:
