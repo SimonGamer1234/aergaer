@@ -29,6 +29,7 @@ jobs:
           REPO_VAR_12: ${{ vars.AD_12}}
           URLS: ${{ vars.DISCORD_URLS}}
           TOKEN_SCRT_3: ${{ secrets.ACCOUNT_3_TOKEN}}
+          BOT_TOKEN: ${{secrets.BOT_TOKEN}}
 
       run: |
         python3 script.py
