@@ -61,3 +61,4 @@ for Ad in Ads:
   payload = {"content": CONTENT}
   LINK = "https://discord.com/api/v9/channels/1302654558023057540/messages"
   post = requests.post(LINK, data=payload, headers=botheader)
+  print(post.text)
