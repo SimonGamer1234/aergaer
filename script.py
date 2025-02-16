@@ -19,6 +19,7 @@ AD11 = os.getenv("REPO_VAR_11")
 AD12 = os.getenv("REPO_VAR_12")
 IDS = os.getenv("URLS")
 TOKEN3 = os.getenv("TOKEN_SCRT_3")
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 
 author_ids = [1148657062599983237, 841925129323020298, 1285602869638070304, 1303383091468963841]
 ids = IDS.split(',')
