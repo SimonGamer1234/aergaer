@@ -22,6 +22,7 @@ TOKEN1 = os.getenv("TOKEN_SCRT_1")
 TOKEN2 = os.getenv("TOKEN_SCRT_2")
 TOKEN3 = os.getenv("TOKEN_SCRT_3")
 TOKEN4 = os.getenv("TOKEN_SCRT_4")
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 
 ids = IDS.split(',')
 Errors = []
@@ -69,7 +70,7 @@ else:
     CONTENT = str(Errors)
 print(CONTENT)
 link1 = "https://discord.com/api/v9/channels/1300080115945836696/messages"
-header1 = {"Authorization": TOKEN1}
+header1 = {"Authorization": f¨Bot {BOT_TOKEN}}
 payload1 = {"content": str(Errors)}
 res1 = requests.post(link1, data=payload1, headers=header1)
 print(f"Posted to {link1} : {res1.status_code}")  # Print response status
