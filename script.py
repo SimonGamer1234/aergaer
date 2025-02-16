@@ -56,3 +56,7 @@ for Ad in Ads:
     else:
         print(f"Request failed with status code {res.status_code}: {res.text}")
   print(totalcount)
+  botheader = {"Authorization": BOT_TOKEN}
+  payload = {"content": Ad}
+  LINK = https://discord.com/api/v9/channels/1302654558023057540/messages
+  post = requests.post(LINK, data=payload, headers=botheader)
