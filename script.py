@@ -42,7 +42,7 @@ for Ad in Ads:
     intID = int(server_id)
     link = f"https://discord.com/api/v9/guilds/{intID}/messages/search"
     print(link)
-    time.sleep(random.uniform(2,3))
+    time.sleep(random.uniform(5,7))
     res = requests.get(link, params=params, headers=header)
     if res.status_code == 200:
         try:
