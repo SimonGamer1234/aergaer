@@ -33,28 +33,38 @@ for Ad in Ads:
 print(Ads)
 for Ad in Ads:
   totalcount = 0
-  header = {"Authorization": TOKEN3}   
+  header = {"Authorization": TOKEN1}   
   params = {"content": Ad, "author_id":author_ids, "limit": 25}
   for ID in ids:
     response = requests.get(f"https://discord.com/api/v10/channels/{ID}", headers=header)
-    data = response.json()
-    server_id = data['guild_id']
-    intID = int(server_id)
-    link = f"https://discord.com/api/v9/guilds/{intID}/messages/search"
-    print(link)
-    time.sleep(random.uniform(5,7))
-    res = requests.get(link, params=params, headers=header)
-    if res.status_code == 200:
-        try:
+    if response.status_code == 200:
+      try:
+        data = response.json()
+        print(data)
+        server_id = data['guild_id']
+        intID = int(server_id)
+        link = f"https://discord.com/api/v9/guilds/{intID}/messages/search"
+        print(link)
+        time.sleep(random.uniform(5,7))
+        res = requests.get(link, params=params, headers=header)
+        if res.status_code == 200:
+          try:
             data = res.json()
             total_results = data.get("total_results", 0)
             totalcount += int(total_results)
             print(total_results)  # Parsed JSON response
-        except requests.exceptions.JSONDecodeError:
+          except requests.exceptions.JSONDecodeError:
             print("Response is not JSON. Raw response:")
             print(res.text)
+        else:
+          print(f"Request failed with status code {res.status_code}: {res.text}")
+      except requests.exceptions.JSONDecodeError:
+        print("Response is not JSON. Raw response:")
+        print(res.text)
+      
     else:
-        print(f"Request failed with status code {res.status_code}: {res.text}")
+      print(f"Request failed with status code {response.status_code}: {response.text}")
+   
   print(totalcount)
   botheader = {"Authorization": f"Bot {BOT_TOKEN}"}
   CONTENT = f"Avertisement\n{Ad}\n\n{totalcount}"
