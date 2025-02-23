@@ -72,5 +72,5 @@ print(CONTENT)
 link1 = "https://discord.com/api/v9/channels/1300080115945836696/messages"
 header1 = {"Authorization": f"Bot {BOT_TOKEN}"}
 payload1 = {"content": str(Errors)}
-res1 = requests.post(link1, data=payload1, headers=header1)
+res1 = requests.post(link1, json=payload1, headers=header1)
 print(f"Posted to {link1} : {res1.status_code}")  # Print response status
