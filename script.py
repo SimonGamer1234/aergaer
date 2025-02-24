@@ -75,7 +75,7 @@ for Ad in Ads:
   elif totalcount < Post_Limit:
     Ads2 = [AD1, AD2, AD3, AD4, AD5, AD6, AD7, AD8, AD9, AD10, AD11, AD12]
     for AD in Ads2:
-      Split_AD = Ad.split(\n=divider=\n) 
+      Split_AD = Ad.split("\n=divider=\n") 
       Text_Special = Split_AD.index(1)
       NAME = f"AD_{Ads2.index(AD)}
       if Text_Special == Text:
