@@ -42,7 +42,7 @@ print(token_index)
 Token = Tokens[token_index]
 CurrentAd = Ads[current_ad]
 SPLIT_AD = CurrentAd.split("\n=divider=\n")
-CONTENT = SPLIT_AD.index[0]
+CONTENT = SPLIT_AD.[0]
 
 header = {"Authorization": Token}
 payload = {"content": CONTENT}
