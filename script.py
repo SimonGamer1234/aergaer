@@ -20,6 +20,8 @@ AD12 = os.getenv("REPO_VAR_12")
 IDS = os.getenv("URLS")
 TOKEN3 = os.getenv("TOKEN_SCRT_3")
 BOT_TOKEN = os.getenv("BOT_TOKEN")
+BASE_VARIABLE = os.getenv("FINAL_VARIABLE")
+GITHUB_TOKEN = os.getenv("GTOKEN")
 
 author_ids = [1148657062599983237, 841925129323020298, 1285602869638070304, 1303383091468963841]
 ids = IDS.split(',')
@@ -64,11 +66,33 @@ for Ad in Ads:
       
     else:
       print(f"Request failed with status code {response.status_code}: {response.text}")
-   
+  Split_Ad = Ad.split(\n=divider=\n) 
+  Text = Split_Ad.index(1)
+  Post_Limit = Split_Ad.index(2)
+  End_Date = Split_Ad.index(3)
+  if Post_Limit == "Base_Variable":
+    print("Base Var")
+  elif totalcount < Post_Limit:
+    Ads2 = [AD1, AD2, AD3, AD4, AD5, AD6, AD7, AD8, AD9, AD10, AD11, AD12]
+    for AD in Ads2:
+      Split_AD = Ad.split(\n=divider=\n) 
+      Text_Special = Split_AD.index(1)
+      NAME = f"AD_{Ads2.index(AD)}
+      if Text_Special == Text:
+        headers = {
+          'Accept': 'application/vnd.github+json',
+          'Authorization': f'Bearer {GITHUB_TOKEN}',
+          'X-GitHub-Api-Version': '2022-11-28',
+          'Content-Type': 'application/json',
+          }
+        data = json.dumps({"value":FINAL_VARIABLE})    
+        response = requests.patch(f'https://api.github.com/repos/SimonGamer1234/aergaer/actions/variables/{NAME}', headers=headers, data=data)
   print(totalcount)
   botheader = {"Authorization": f"Bot {BOT_TOKEN}"}
-  CONTENT = f"Avertisement\n{Ad}\n\n{totalcount}"
+  CONTENT = f"Avertisement\n{Text}\n\n{totalcount}"
   payload = {"content": CONTENT}
   LINK = "https://discord.com/api/v9/channels/1302654558023057540/messages"
   post = requests.post(LINK, data=payload, headers=botheader)
   print(post.text)
+
+ 
