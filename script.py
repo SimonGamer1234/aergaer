@@ -35,7 +35,7 @@ for Ad in Ads:
 print(Ads)
 for Ad in Ads:
   words = Ad.split()
-  FirstThree = " ".join(words[:2]
+  FirstThree = " ".join(words[:2])
   totalcount = 0
   header = {"Authorization": TOKEN3}   
   params = {"content": FirstThree, "author_id":author_ids, "limit": 25}
