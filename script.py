@@ -77,7 +77,7 @@ for Ad in Ads:
     for AD in Ads2:
       Split_AD = Ad.split("\n=divider=\n") 
       Text_Special = Split_AD.index(1)
-      NAME = f"AD_{Ads2.index(AD)}
+      NAME = f"AD_{Ads2.index(AD)}"
       if Text_Special == Text:
         headers = {
           'Accept': 'application/vnd.github+json',
