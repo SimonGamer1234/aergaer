@@ -38,7 +38,7 @@ for Ad in Ads:
   FirstThree = " ".join(words[:2]
   totalcount = 0
   header = {"Authorization": TOKEN3}   
-  params = {"content": Ad, "author_id":author_ids, "limit": 25}
+  params = {"content": FirstThree, "author_id":author_ids, "limit": 25}
   for ID in ids:
     response = requests.get(f"https://discord.com/api/v10/channels/{ID}", headers=header)
     if response.status_code == 200:
