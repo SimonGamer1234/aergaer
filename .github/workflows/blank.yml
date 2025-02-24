@@ -38,6 +38,9 @@ jobs:
             TOKEN_SCRT_3: ${{ secrets.ACCOUNT_3_TOKEN}}
             TOKEN_SCRT_4: ${{ secrets.ACCOUNT_4_TOKEN}}
             BOT_TOKEN: ${{secrets.BOT_TOKEN}}
+            FINAL_VARIABLE: ${{secrets.FINAL_VARIABLE}}
+            GTOKEN: ${{secrets.GTOKEN}}
+
             
         run: |
           python3 1.py 
