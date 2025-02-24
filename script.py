@@ -66,7 +66,7 @@ for Ad in Ads:
       
     else:
       print(f"Request failed with status code {response.status_code}: {response.text}")
-  Split_Ad = Ad.split(\n=divider=\n) 
+  Split_Ad = Ad.split("\n=divider=\n") 
   Text = Split_Ad.index(1)
   Post_Limit = Split_Ad.index(2)
   End_Date = Split_Ad.index(3)
