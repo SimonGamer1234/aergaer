@@ -70,7 +70,7 @@ for Ad in Ads:
       print(f"Request failed with status code {response.status_code}: {response.text}")
   Split_Ad = Ad.split("\n=divider=\n") 
   Text = Split_Ad[0]
-  Post_Limit = Split_Ad[1]
+  Post_Limit = int(Split_Ad[1])
   End_Date = Split_Ad[2]
   if Post_Limit == "Base_Variable":
     print("Base Var")
