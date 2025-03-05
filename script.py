@@ -77,7 +77,7 @@ for Ad in Ads:
   print(post.text)
 def TimeReduce():
   for Ad in Ads:
-    Splitted_ad = Ad.split(\n=divider=\n)
+    Splitted_ad = Ad.split("\n=divider=\n")
     Ad_Text = Splitted_ad[0]
     Ad_TotalPosts = Splitted_ad[1]
     Ad_RemainingTime = Splitted_ad[2]
