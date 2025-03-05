@@ -34,6 +34,8 @@ for Ad in Ads:
     
 print(Ads)
 for Ad in Ads:
+  Splitted_Ad = Ad.split("/n=divider/n")
+  Text = Splitted_Ad[0]
   words = Ad.split()
   FirstThree = " ".join(words[:2])
   totalcount = 0
