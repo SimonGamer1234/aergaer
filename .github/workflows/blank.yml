@@ -2,7 +2,7 @@ name: Ads Scheduler
 
 on:
   workflow_dispatch:
-  schedule:
+  schedul:
     - cron: '0 */2 * * *' # Runs every 2 hours
 
  
