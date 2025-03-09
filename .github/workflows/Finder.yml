@@ -30,6 +30,7 @@ jobs:
           URLS: ${{ vars.DISCORD_URLS}}
           TOKEN_SCRT_3: ${{ secrets.ACCOUNT_3_TOKEN}}
           BOT_TOKEN: ${{secrets.BOT_TOKEN}}
+          GTOKEN: ${{secrets.GTOKEN}}
 
       run: |
         python3 script.py
