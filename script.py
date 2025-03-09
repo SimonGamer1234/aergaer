@@ -69,6 +69,7 @@ def SearchForPosts(Keyword, ids, author_ids):
   return totalcount
 
 def UpdateVariable(Ad):
+  print(Ad.split("\n=divider=\n"))
   AdContent = Ad.split("\n=divider=\n")[0]
   TotalPosts = Ad.split("\n=divider=\n")[1]
   DaysLeft = Ad.split("\n=divider=\n")[2]
