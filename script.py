@@ -72,22 +72,26 @@ def UpdateVariable(Ad):
   print(Ad.split("\n=divider=\n"))
   AdContent = Ad.split("\n=divider=\n")[0]
   TotalPosts = Ad.split("\n=divider=\n")[1]
-  DaysLeft = Ad.split("\n=divider=\n")[2]
-  KeyWords = Ad.split("\n=divider=\n")[3]
-  NewDays = int(DaysLeft) - 1
-  if NewDays == 0:
-     SendMessage(f"Ad {AdContent} has expired", BOT_TOKEN, "https://discord.com/api/v9/channels/1302654558023057540/messages")
-  NAME = f"AD_{Ads.index(Ad) + 1}"
-  Text = f"{AdContent}\n=divider=\n{TotalPosts}\n=divider=\n{NewDays}\n=divider=\n{KeyWords}"
-  headers = {
-    'Accept': 'application/vnd.github+json',
-    'Authorization': f'Bearer {GITHUB_TOKEN}',
-    'X-GitHub-Api-Version': '2022-11-28',
-    'Content-Type': 'application/json',}
-  data = {"value": Text}
-  response = requests.patch(f'https://api.github.com/repos/{OWNER}/{REPO}/actions/variables/{NAME}', headers=headers, json=data)
-  print(response.status_code)
-  return DaysLeft, TotalPosts, KeyWords, AdContent
+  if TotalPosts == "Base_Variable":
+      print("Base Variable")
+      return "Base_Variable", "Base_Variable", "Base_Variable", "Base_Variable"
+  else:   
+    DaysLeft = Ad.split("\n=divider=\n")[2]
+    KeyWords = Ad.split("\n=divider=\n")[3]
+    NewDays = int(DaysLeft) - 1
+    if NewDays == 0:
+      SendMessage(f"Ad {AdContent} has expired", BOT_TOKEN, "https://discord.com/api/v9/channels/1302654558023057540/messages")
+    NAME = f"AD_{Ads.index(Ad) + 1}"
+    Text = f"{AdContent}\n=divider=\n{TotalPosts}\n=divider=\n{NewDays}\n=divider=\n{KeyWords}"
+    headers = {
+      'Accept': 'application/vnd.github+json',
+      'Authorization': f'Bearer {GITHUB_TOKEN}',
+      'X-GitHub-Api-Version': '2022-11-28',
+      'Content-Type': 'application/json',}
+    data = {"value": Text}
+    response = requests.patch(f'https://api.github.com/repos/{OWNER}/{REPO}/actions/variables/{NAME}', headers=headers, json=data)
+    print(response.status_code)
+    return DaysLeft, TotalPosts, KeyWords, AdContent
 
 
 def SendMessage(Message, Account, Destination):
