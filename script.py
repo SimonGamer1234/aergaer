@@ -32,8 +32,8 @@ Ads2 = list(set(Ads))
 print(Ads)
 
 def GetGuildIds(ids):
+    GuildIds = []
     for ID in ids:
-      GuildIds = []
       header = {"Authorization": TOKEN3}
       response = requests.get(f"https://discord.com/api/v10/channels/{ID}", headers=header)
       if response.status_code == 200:
