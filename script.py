@@ -19,7 +19,7 @@ AD11 = os.getenv("REPO_VAR_11")
 AD12 = os.getenv("REPO_VAR_12")
 IDS = os.getenv("URLS")
 TOKEN3 = os.getenv("TOKEN_SCRT_3")
-BOT_TOKEN = os.getenv("BOT_TOKEN")
+BOT_TOKEN = f"Bot {os.getenv("BOT_TOKEN")}"
 OWNER = "SimonGamer1234"
 REPO = "aergaer"
 GITHUB_TOKEN = os.getenv("GTOKEN")
@@ -47,7 +47,7 @@ def GetGuildIds(ids):
 def SearchForPosts(Keyword, ids, author_ids):
   totalcount = 0
   header = {"Authorization": TOKEN3}
-  params = {"content": Ad, "author_id": author_ids, "limit": 25}
+  params = {"content": Keyword, "author_id": author_ids, "limit": 25}
   for ID in ids:
     ID = int(ID)
     link = f"https://discord.com/api/v9/guilds/{ID}/messages/search"
