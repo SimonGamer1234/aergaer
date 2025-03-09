@@ -45,6 +45,7 @@ def GetGuildIds(ids):
     return GuildIds
 
 def SearchForPosts(Keyword, ids, author_ids):
+  print(ids)
   totalcount = 0
   header = {"Authorization": TOKEN3}
   params = {"content": Keyword, "author_id": author_ids, "limit": 25}
