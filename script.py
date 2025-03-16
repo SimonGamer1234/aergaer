@@ -54,7 +54,7 @@ def SearchForPosts(Keyword, ids, author_ids):
     ID = int(ID)
     link = f"https://discord.com/api/v9/guilds/{ID}/messages/search"
     print(link)
-    time.sleep(random.uniform(2,3))
+    time.sleep(random.uniform(5,10))
     res = requests.get(link, params=params, headers=header)
     if res.status_code == 200:
         try:
@@ -87,6 +87,7 @@ def UpdateVariable(Ad):
     KeyWords = Splitted2[3]
   else:
      print("Error wiht splitting")
+     print(Ad)
   if TotalPosts == "Base_Variable":
       print("Base Variable")
       return "Base_Variable", "Base_Variable", "Base_Variable", "Base_Variable"
