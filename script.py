@@ -29,6 +29,7 @@ ids = IDS.split(',')
 totalcount = 0
 Ads = [AD1, AD2, AD3, AD4, AD5, AD6, AD7, AD8, AD9, AD10, AD11, AD12]
 Ads2 = list(set(Ads))    
+print(Ads2)
 print(Ads)
 
 def GetGuildIds(ids):
