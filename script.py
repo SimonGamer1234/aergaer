@@ -139,14 +139,15 @@ def main(Ads2):
           KeyWords1, DaysLeft1, TotalPosts1, AdContent1  = SplitAd(Ad1)
           if KeyWords == KeyWords1:
             UpdateVariable(KeyWords1, DaysLeft1, TotalPosts1, AdContent1, Ad1)
-            if PostsLeft > 0:
-              Message = f"Advertisement:\n\n{Ad1}\n\n Days Left:\n{DaysLeft1}\n Total Posts: \n{TotalPosts}\n Posts left: {PostsLeft}"
-              SendMessage(Message, BOT_TOKEN, 1300080137097711677)
-            else:
-              Message = f"Advertisement:\n\n{Ad1}\n\n Can be DELETED"
-              SendMessage(Message, BOT_TOKEN, 1300080137097711677)
           else:
             continue
+        if PostsLeft > 0:
+          Message = f"Advertisement:\n\n{Ad1}\n\n Days Left:\n{DaysLeft1}\n Total Posts: \n{TotalPosts}\n Posts left: {PostsLeft}"
+          SendMessage(Message, BOT_TOKEN, 1300080137097711677)
+        else:
+          Message = f"Advertisement:\n\n{Ad1}\n\n Can be DELETED"
+          SendMessage(Message, BOT_TOKEN, 1300080137097711677)
+          
 
           
 main(DeleteIfMultiple())      
