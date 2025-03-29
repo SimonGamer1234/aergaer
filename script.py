@@ -117,15 +117,23 @@ def SendMessage(Message, Account, ChannelID):
   print(f"Posted to {link} : {res.status_code}")  # Print response status
 
 def DeleteIfMultiple():
-  Ads2 = Ads
-  for Ad in Ads:
-    KeyWords, DaysLeft, TotalPosts, AdContent = SplitAd(Ad)
-    for Ad1 in Ads:
-      KeyWords1, DaysLeft1, TotalPosts1, AdContent1 = SplitAd(Ad1)
-      if KeyWords == KeyWords1:
-         Ads2.remove(Ad1)
-  print(Ads2)
-  return Ads2
+    unique_ads = []
+    seen_keywords = set()
+
+    for Ad in Ads:
+        split_result = SplitAd(Ad)
+        if split_result is None:
+            continue  # Skip if splitting failed
+
+        KeyWords, DaysLeft, TotalPosts, AdContent = split_result
+
+        if KeyWords not in seen_keywords:
+            seen_keywords.add(KeyWords)
+            unique_ads.append(Ad)
+
+    print(unique_ads)  # This should now contain only unique ads
+    return unique_ads
+
 
 def main(Ads2):
    for Ad in Ads2:
