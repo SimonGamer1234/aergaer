@@ -65,7 +65,7 @@ def SearchForPosts(Keyword, ids, author_ids):
             print(res.text)
     else:
         print(f"Request failed with status code {res.status_code}: {res.text}")
-  print(f"Total count: {totalcount} Ad: {Ad}")
+  print(f"Total count: {totalcount} Ad: {Keyword}")
   return totalcount
 
 def SplitAd(Ad):
