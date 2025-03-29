@@ -123,7 +123,7 @@ def DeleteIfMultiple():
     for Ad1 in Ads:
       KeyWords1, DaysLeft1, TotalPosts1, AdContent1 = SplitAd(Ad1)
       if KeyWords == KeyWords1:
-         Ads2.remove[Ads2.index(Ad1)]
+         Ads2.remove(Ad1)
   return Ads2
 
 def main(Ads2):
