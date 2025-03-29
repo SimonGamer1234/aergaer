@@ -143,10 +143,10 @@ def main(Ads2):
           else:
             continue
         if PostsLeft > 0:
-          Message = f"Advertisement:\n\n{Ad1}\n\n Days Left:\n{DaysLeft1}\n Total Posts: \n{TotalPosts}\n Posts left: {PostsLeft}"
+          Message = f"Advertisement:\n\n{Ad}\n\n Days Left:\n{DaysLeft}\n Total Posts: \n{TotalPosts}\n Posts left: {PostsLeft}"
           SendMessage(Message, BOT_TOKEN, 1300080137097711677)
         else:
-          Message = f"Advertisement:\n\n{Ad1}\n\n Can be DELETED"
+          Message = f"Advertisement:\n\n{Ad}\n\n Can be DELETED"
           SendMessage(Message, BOT_TOKEN, 1300080137097711677)
           
 
