@@ -28,8 +28,6 @@ author_ids = [1148657062599983237, 841925129323020298, 1285602869638070304, 1303
 ids = IDS.split(',')
 totalcount = 0
 Ads = [AD1, AD2, AD3, AD4, AD5, AD6, AD7, AD8, AD9, AD10, AD11, AD12]
-Ads2 = list(set(Ads))    
-print(Ads2)
 print(Ads)
 
 def GetGuildIds(ids):
@@ -70,7 +68,7 @@ def SearchForPosts(Keyword, ids, author_ids):
   print(f"Total count: {totalcount} Ad: {Ad}")
   return totalcount
 
-def UpdateVariable(Ad):
+def SplitAd(Ad):
   Splitted1 = Ad.split("\n=divider=\n")
   Splitted2 = Ad.split("\r\n=divider=\r\n")
   if len(Splitted1) == 4:
@@ -79,15 +77,19 @@ def UpdateVariable(Ad):
     TotalPosts = Splitted1[1]
     DaysLeft = Splitted1[2]
     KeyWords = Splitted1[3]
+    return KeyWords, DaysLeft, TotalPosts, AdContent
   elif len(Splitted2) == 4:
     print(Splitted2)
     AdContent = Splitted2[0]
     TotalPosts = Splitted2[1]
     DaysLeft = Splitted2[2]
     KeyWords = Splitted2[3]
+    return KeyWords, DaysLeft, TotalPosts, AdContent
   else:
      print("Error wiht splitting")
      print(Ad)
+
+def UpdateVariable(KeyWords, DaysLeft, TotalPosts, AdContent, Ad):
   if TotalPosts == "Base_Variable":
       print("Base Variable")
       return "Base_Variable", "Base_Variable", "Base_Variable", "Base_Variable"
@@ -105,25 +107,47 @@ def UpdateVariable(Ad):
     data = {"value": Text}
     response = requests.patch(f'https://api.github.com/repos/{OWNER}/{REPO}/actions/variables/{NAME}', headers=headers, json=data)
     print(response.status_code)
-    return DaysLeft, TotalPosts, KeyWords, AdContent
 
 
-def SendMessage(Message, Account, Destination):
+def SendMessage(Message, Account, ChannelID):
   header = {"Authorization": Account}
   payload = {"content": Message}
-  res = requests.post(Destination, data=payload, headers=header)
-  print(f"Posted to {Destination} : {res.status_code}")  # Print response status
+  link = f"https://discord.com/api/v9/channels/{ChannelID}/messages"
+  res = requests.post(link, data=payload, headers=header)
+  print(f"Posted to {link} : {res.status_code}")  # Print response status
 
+def DeleteIfMultiple():
+  Ads2 = Ads
+  for Ad in Ads:
+    KeyWords, DaysLeft, TotalPosts, AdContent = SplitAd(Ad)
+    for Ad1 in Ads:
+      KeyWords1, DaysLeft1, TotalPosts1, AdContent1 = SplitAd(Ad1)
+      if KeyWords == KeyWords1:
+         Ads2.remove[Ads2.index(Ad1)]
+  return Ads2
 
-for Ad in Ads2:
-  DaysLeft, SupposedPosts, KeyWords, AdContent = UpdateVariable(Ad)
-  if SupposedPosts == "Base_Variable":
-    continue
-  else:
-    GuildIds = GetGuildIds(ids)
-    TotalPosts = SearchForPosts(KeyWords, GuildIds, author_ids)
-    PostsLeft = int(SupposedPosts) - TotalPosts
-    if PostsLeft > 0:
-      SendMessage(f"Ad {Ad} \n\n Days left:  {DaysLeft} \n\n Posts left: {PostsLeft}", BOT_TOKEN, "https://discord.com/api/v9/channels/1302654558023057540/messages")
-    else:
-      SendMessage(f"Ad {Ad} can be removed \n\n {DaysLeft}  {PostsLeft}", BOT_TOKEN, "https://discord.com/api/v9/channels/1302654558023057540/messages")
+def main(Ads2):
+   for Ad in Ads2:
+      KeyWords, DaysLeft, TotalPosts, AdContent  = SplitAd(Ad)
+      if KeyWords == "Base_Variable":
+        print("Base Variable")
+        continue
+      else:
+        totalcount = SearchForPosts(KeyWords, GetGuildIds(ids), author_ids)
+        PostsLeft = int(TotalPosts) - totalcount
+        for Ad1 in Ads:
+          KeyWords1, DaysLeft1, TotalPosts1, AdContent1  = SplitAd(Ad1)
+          if KeyWords == KeyWords1:
+            UpdateVariable(KeyWords1, DaysLeft1, TotalPosts1, AdContent1, Ad1)
+            if PostsLeft > 0:
+              Message = f"Advertisement:\n\n{Ad1}\n\n Days Left:\n{DaysLeft1}\n Total Posts: \n{TotalPosts}\n Posts left: {PostsLeft}"
+              SendMessage(Message, BOT_TOKEN, 1300080137097711677)
+            else:
+              Message = f"Advertisement:\n\n{Ad1}\n\n Can be DELETED"
+              SendMessage(Message, BOT_TOKEN, 1300080137097711677)
+          else:
+            continue
+
+          
+main(DeleteIfMultiple())      
+           
