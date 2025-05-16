@@ -73,7 +73,7 @@ for ID in ids:
 
 print(unauthorized)
 if unauthorized == 1:
-    CONTENT = f"TOKEN {token_index} UNAUTHORIZED - Normal - <@1148657062599983237>\n\nContent: {Current Ad}"
+    CONTENT = f"TOKEN {token_index} UNAUTHORIZED - Normal - <@1148657062599983237>\n\nContent: {CurrentAd}"
 else:
     CONTENT = str(Errors)
 print(CONTENT)
