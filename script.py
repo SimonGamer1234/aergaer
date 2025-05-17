@@ -23,7 +23,7 @@ BOT_TOKEN = f"Bot {os.getenv("BOT_TOKEN")}"
 OWNER = "SimonGamer1234"
 REPO = "aergaer"
 GITHUB_TOKEN = os.getenv("GTOKEN")
-
+BASE_VARIABLE = ""
 author_ids = [1148657062599983237, 841925129323020298, 1285602869638070304, 1303383091468963841]
 ids = IDS.split(',')
 totalcount = 0
