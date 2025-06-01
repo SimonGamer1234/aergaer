@@ -120,3 +120,5 @@ def main():
     TicketMessageStatus = ReportTicket(TICKETID, unauthorized)
     print(f"Main Channel Message Status: {MainChannelMessageStatus}")
     print(f"Ticket Message Status: {TicketMessageStatus}")
+
+main()
