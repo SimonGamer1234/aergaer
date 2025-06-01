@@ -108,7 +108,7 @@ def ReportTicket(TicketID, unauthorized):
     if unauthorized == 1:
         ReportContent = f"There was a porblem with the ad posting. The Owner has been notified. He will provide more info <@1148657062599983237>"
     else:
-        ReportContent = f"Your ad has been posted successfully."
+        ReportContent = f"We have posted your ad."
     MessageStatus = SendMessageFromBot(BOT_TOKEN, TicketID, ReportContent)
     return MessageStatus
     
